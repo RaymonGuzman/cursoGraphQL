@@ -9,3 +9,7 @@ $ npm i -D nodemon
 
 --The whe create the index.js file
 $ mkdir index.js
+
+--Then we install mongoose and dotenv extension
+
+$ npm i mongoose dotenv
