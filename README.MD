@@ -13,3 +13,9 @@ $ mkdir index.js
 --Then we install mongoose and dotenv extension
 
 $ npm i mongoose dotenv
+
+--To Check After Saving Data
+$ mongo
+>use ts_crud        --
+>show collections   --to see the collections we created
+>db.users.find()    --to see the users added
