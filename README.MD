@@ -19,3 +19,6 @@ $ mongo
 >use ts_crud        --
 >show collections   --to see the collections we created
 >db.users.find()    --to see the users added
+
+--Install bcryptjs to hash the password
+$ npm i bcryptjs
