@@ -33,6 +33,23 @@ const resolvers = {
       }
       //hashear el passowrd
       console.log(existeUsuario);
+    },
+    autenticarUsuario: async (_, { input }) => {
+
+      const { email, password } = input;
+      const existeUsuario = await Usuario.findOne({ email });
+
+      //Verificamos si el usuario existe
+      if (!existeUsuario) {
+        throw new Error('No existe usuario')
+      };
+      const passwordCorrecta = await bcryptjs.compare(password, existeUsuario.password);
+
+      if (passwordCorrecta) {
+        console.log('Autenticado');
+      } else {
+        console.log('No autenticado');
+      }
     }
   }
 }
