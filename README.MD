@@ -15,10 +15,20 @@ $ mkdir index.js
 $ npm i mongoose dotenv
 
 --To Check After Saving Data
-$ mongo
+```mongo```
 >use ts_crud        --
 >show collections   --to see the collections we created
 >db.users.find()    --to see the users added
 
 --Install bcryptjs to hash the password
 $ npm i bcryptjs
+
+-- Install Jason Web Token
+$ npm i jsonwebtoken
+
+
+--Check port in use 
+```sudo lsof -i -P -n | grep LISTEN```
+
+--How to kill port in use
+```sudo fuser -k 4000/tcp```

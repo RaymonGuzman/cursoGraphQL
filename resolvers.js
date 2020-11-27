@@ -1,10 +1,22 @@
 const Usuario = require('./model/Usuario');
 const bcryptjs = require('bcryptjs');
-// Resolvers
+const jwt = require('jsonwebtoken');
+require('dotenv').config({ path: 'variables.env' });
 
+
+const crearToken = (usuario, palabra, expiresIn) => {
+  const { id, email, nombre, apellido } = usuario;
+  return jwt.sign({ id }, palabra, { expiresIn });
+}
+// Resolvers
 const resolvers = {
   Query: {
-    obtenerCursos: () => "obtener algo para que no explote"
+    obtenerUsuarioID: async (_, { token }) => {
+      const UsuarioId = await jwt.verify(token, process.env.PALABRA);
+      console.log(UsuarioId);
+      return UsuarioId
+
+    }
   },
   Mutation: {
     nuevoUsuario: async (_, { input }) => {
@@ -31,8 +43,6 @@ const resolvers = {
       } catch (error) {
         console.log(error);
       }
-      //hashear el passowrd
-      console.log(existeUsuario);
     },
     autenticarUsuario: async (_, { input }) => {
 
@@ -45,10 +55,12 @@ const resolvers = {
       };
       const passwordCorrecta = await bcryptjs.compare(password, existeUsuario.password);
 
-      if (passwordCorrecta) {
-        console.log('Autenticado');
-      } else {
-        console.log('No autenticado');
+      if (!passwordCorrecta) {
+        console.log('Clave Incorrecta');
+        throw new Error('La contraseña es incorrecta');
+      }
+      return {
+        token: crearToken(existeUsuario, process.env.PALABRA, '24h')
       }
     }
   }
