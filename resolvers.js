@@ -1,4 +1,5 @@
 const Usuario = require('./model/Usuario');
+// const Producto = require('./model/Productos');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({ path: 'variables.env' });
@@ -19,6 +20,27 @@ const resolvers = {
     }
   },
   Mutation: {
+    // Productos
+    nuevoProducto: async (_, { input }) => {
+      // console.log(input);
+      const { nombre, modelo, precio, existencia } = input;
+      console.log(nombre);
+
+      const existeProducto = await Producto.findOne({ nombre });
+      if (existeProducto) {
+        throw new Error('El producto ya está registrado');
+      }
+      try {
+        const producto = new Producto(input);
+        producto.save();
+        return producto
+      } catch (error) {
+        console.log(error);
+      }
+
+    },
+
+    // Usuarios
     nuevoUsuario: async (_, { input }) => {
 
       const { email, password } = input;
