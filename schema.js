@@ -3,7 +3,11 @@ const { gql } = require("apollo-server");
 
 const typeDefs = gql`
   type Query {
+    #Usuarios
     obtenerUsuarioID(token: String!): Usuario
+    
+    #Productos
+    obtenerProductos: [Producto]
   }
   
   #Usuario

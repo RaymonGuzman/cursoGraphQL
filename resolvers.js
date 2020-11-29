@@ -1,5 +1,5 @@
 const Usuario = require('./model/Usuario');
-// const Producto = require('./model/Productos');
+const Producto = require('./model/Productos');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({ path: 'variables.env' });
@@ -12,11 +12,22 @@ const crearToken = (usuario, palabra, expiresIn) => {
 // Resolvers
 const resolvers = {
   Query: {
+    // Usuarios
     obtenerUsuarioID: async (_, { token }) => {
       const UsuarioId = await jwt.verify(token, process.env.PALABRA);
       console.log(UsuarioId);
       return UsuarioId
 
+    },
+
+    // Productos
+    obtenerProductos: async () => {
+      try {
+        const productos = await Producto.find();
+        return productos;
+      } catch (error) {
+        console.log(error);
+      }
     }
   },
   Mutation: {
