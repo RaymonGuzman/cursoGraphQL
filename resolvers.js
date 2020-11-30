@@ -58,6 +58,18 @@ const resolvers = {
       }
 
     },
+    actualizarProducto: async (_, { id, input }) => {
+
+      let producto = await Producto.findById(id);
+      if (!producto) {
+        throw new Error('No existe el producto');
+      }
+
+      producto = Producto.findByIdAndUpdate({ _id: id }, input, { new: true });
+
+      return producto;
+
+    },
     // Usuarios
     nuevoUsuario: async (_, { input }) => {
 

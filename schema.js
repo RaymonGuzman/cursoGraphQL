@@ -53,6 +53,7 @@ const typeDefs = gql`
   type Mutation {
     #Productos
     nuevoProducto(input: ProductoInput): Producto
+    actualizarProducto(id:ID!, input:ProductoInput): Producto
     #Usuario
     nuevoUsuario(input: UsuarioInput): Usuario
     autenticarUsuario(input: AutenticarInput): Token
