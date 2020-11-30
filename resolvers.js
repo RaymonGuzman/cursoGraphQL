@@ -28,12 +28,20 @@ const resolvers = {
       } catch (error) {
         console.log(error);
       }
+    },
+    obtenerProducto: async (_, { id }) => {
+      const productoID = await Producto.findById(id);
+      if (!productoID) {
+        throw new Error('No existe el producto');
+      }
+
+      return productoID
+
     }
   },
   Mutation: {
     // Productos
     nuevoProducto: async (_, { input }) => {
-      // console.log(input);
       const { nombre, modelo, precio, existencia } = input;
       console.log(nombre);
 
@@ -50,7 +58,6 @@ const resolvers = {
       }
 
     },
-
     // Usuarios
     nuevoUsuario: async (_, { input }) => {
 
