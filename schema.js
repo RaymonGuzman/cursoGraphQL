@@ -54,6 +54,7 @@ const typeDefs = gql`
     #Productos
     nuevoProducto(input: ProductoInput): Producto
     actualizarProducto(id:ID!, input:ProductoInput): Producto
+    eliminarProducto(id:ID!) : Producto
     #Usuario
     nuevoUsuario(input: UsuarioInput): Usuario
     autenticarUsuario(input: AutenticarInput): Token

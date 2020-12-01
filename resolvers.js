@@ -70,6 +70,17 @@ const resolvers = {
       return producto;
 
     },
+    eliminarProducto: async (_, { id }) => {
+      let producto = await Producto.findById(id);
+      if (!producto) {
+        throw new Error('No existe el producto');
+      }
+
+      producto = await Producto.findByIdAndDelete({ _id: id });
+
+      return producto;
+    },
+
     // Usuarios
     nuevoUsuario: async (_, { input }) => {
 

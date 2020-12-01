@@ -16,9 +16,10 @@ $ npm i mongoose dotenv
 
 --To Check After Saving Data
 ```mongo```
->use ts_crud        --
+>show dbs           -- To see all the databases
 >show collections   --to see the collections we created
->db.users.find()    --to see the users added
+>use CRMGraphQL     -- To connect to our database
+>db.usuarios.find()  --to see the users added
 
 --Install bcryptjs to hash the password
 $ npm i bcryptjs
