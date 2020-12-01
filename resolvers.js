@@ -1,5 +1,6 @@
 const Usuario = require('./model/Usuario');
 const Producto = require('./model/Productos');
+const Cliente = require('./model/Clientes');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({ path: 'variables.env' });
@@ -40,46 +41,6 @@ const resolvers = {
     }
   },
   Mutation: {
-    // Productos
-    nuevoProducto: async (_, { input }) => {
-      const { nombre, modelo, precio, existencia } = input;
-      console.log(nombre);
-
-      const existeProducto = await Producto.findOne({ nombre });
-      if (existeProducto) {
-        throw new Error('El producto ya está registrado');
-      }
-      try {
-        const producto = new Producto(input);
-        producto.save();
-        return producto
-      } catch (error) {
-        console.log(error);
-      }
-
-    },
-    actualizarProducto: async (_, { id, input }) => {
-
-      let producto = await Producto.findById(id);
-      if (!producto) {
-        throw new Error('No existe el producto');
-      }
-
-      producto = Producto.findByIdAndUpdate({ _id: id }, input, { new: true });
-
-      return producto;
-
-    },
-    eliminarProducto: async (_, { id }) => {
-      let producto = await Producto.findById(id);
-      if (!producto) {
-        throw new Error('No existe el producto');
-      }
-
-      producto = await Producto.findByIdAndDelete({ _id: id });
-
-      return producto;
-    },
 
     // Usuarios
     nuevoUsuario: async (_, { input }) => {
@@ -125,6 +86,62 @@ const resolvers = {
       return {
         token: crearToken(existeUsuario, process.env.PALABRA, '24h')
       }
+    },
+
+    // Productos
+    nuevoProducto: async (_, { input }) => {
+      const { nombre, modelo, precio, existencia } = input;
+      console.log(nombre);
+
+      const existeProducto = await Producto.findOne({ nombre });
+      if (existeProducto) {
+        throw new Error('El producto ya está registrado');
+      }
+      try {
+        const producto = new Producto(input);
+        producto.save();
+        return producto
+      } catch (error) {
+        console.log(error);
+      }
+
+    },
+    actualizarProducto: async (_, { id, input }) => {
+
+      let producto = await Producto.findById(id);
+      if (!producto) {
+        throw new Error('No existe el producto');
+      }
+
+      producto = Producto.findByIdAndUpdate({ _id: id }, input, { new: true });
+
+      return producto;
+
+    },
+    eliminarProducto: async (_, { id }) => {
+      let producto = await Producto.findById(id);
+      if (!producto) {
+        throw new Error('No existe el producto');
+      }
+
+      producto = await Producto.findByIdAndDelete({ _id: id });
+
+      return producto;
+    },
+
+    // Clientes
+    nuevoCliente: async (_, { input }, ctx) => {
+      const { email } = input;
+      //Revisar si ya hay un usuario registrado
+      const existeCliente = await Cliente.findOne({ email });
+      if (existeCliente) {
+        throw new Error('El cliente ya está registrado');
+      }
+      const cliente = await new Cliente(input);
+      cliente.vendedor = ctx.usuario.id;
+      cliente.save();
+
+      return cliente;
     }
   }
 }

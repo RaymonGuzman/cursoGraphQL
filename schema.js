@@ -50,14 +50,37 @@ const typeDefs = gql`
     precio: Float!
   }
 
+  #Cliente
+  type Cliente {
+    id:ID
+    nombre:String
+    apellido:String
+    empresa:String
+    email:String
+    telefono:String
+    vendedor:ID
+  }
+
+  input ClienteInput {
+    nombre:String!
+    apellido:String!
+    empresa:String!
+    email:String!
+    telefono:String!
+  }
+
   type Mutation {
+    #Usuario
+    nuevoUsuario(input: UsuarioInput): Usuario
+    autenticarUsuario(input: AutenticarInput): Token
+
     #Productos
     nuevoProducto(input: ProductoInput): Producto
     actualizarProducto(id:ID!, input:ProductoInput): Producto
     eliminarProducto(id:ID!) : Producto
-    #Usuario
-    nuevoUsuario(input: UsuarioInput): Usuario
-    autenticarUsuario(input: AutenticarInput): Token
+
+    #Clientes
+    nuevoCliente(input:ClienteInput): Cliente
   }
 `;
 

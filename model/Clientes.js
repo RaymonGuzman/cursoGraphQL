@@ -12,7 +12,7 @@ const ClientesSchema = mongoose.Schema({
     required: true,
     trim: true
   },
-  apellido: {
+  empresa: {
     type: String,
     required: true,
     trim: true
@@ -36,7 +36,6 @@ const ClientesSchema = mongoose.Schema({
     type: Date,
     default: Date.now()
   }
-
 });
 
 module.exports = mongoose.model('Cliente', ClientesSchema);
