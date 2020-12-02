@@ -51,6 +51,7 @@ const resolvers = {
         console.log(error);
       }
     },
+
     obtenerClienteVendedor: async (_, __, ctx) => {
       console.log(ctx.usuario.id);
       const vendedorID = ctx.usuario.id.toString();
@@ -65,7 +66,18 @@ const resolvers = {
           console.log(error);
         }
       }
-    }
+    },
+
+    obtenerCliente: async (_, { id }, ctx) => {
+      const cliente = await Cliente.findById(id);
+      if (!cliente) {
+        throw new Error('No existe cliente con este ID');
+      }
+      if (cliente.vendedor.toString() !== ctx.usuario.id) {
+        throw new Error('Este cliente no pertenece a usted');
+      }
+      return cliente;
+    },
   },
 
   Mutation: {
