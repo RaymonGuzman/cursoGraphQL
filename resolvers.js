@@ -3,6 +3,7 @@ const Producto = require('./model/Productos');
 const Cliente = require('./model/Clientes');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const Clientes = require('./model/Clientes');
 require('dotenv').config({ path: 'variables.env' });
 
 
@@ -30,6 +31,7 @@ const resolvers = {
         console.log(error);
       }
     },
+
     obtenerProducto: async (_, { id }) => {
       const productoID = await Producto.findById(id);
       if (!productoID) {
@@ -38,8 +40,19 @@ const resolvers = {
 
       return productoID
 
+    },
+
+    // Clientes
+    obtenerClientes: async () => {
+      try {
+        const clientes = await Clientes.find({});
+        return clientes;
+      } catch (error) {
+        console.log(error);
+      }
     }
   },
+
   Mutation: {
 
     // Usuarios
