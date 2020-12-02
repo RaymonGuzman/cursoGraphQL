@@ -74,6 +74,14 @@ const typeDefs = gql`
     telefono:String!
   }
 
+  input ClienteActualizacionInput {
+    nombre:String
+    apellido:String
+    empresa:String
+    email:String
+    telefono:String
+  }
+
   type Mutation {
     #Usuario
     nuevoUsuario(input: UsuarioInput): Usuario
@@ -86,6 +94,7 @@ const typeDefs = gql`
 
     #Clientes
     nuevoCliente(input:ClienteInput): Cliente
+    actualizarCliente(id:ID!, input:ClienteActualizacionInput): Cliente
   }
 `;
 

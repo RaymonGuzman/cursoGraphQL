@@ -181,6 +181,18 @@ const resolvers = {
       cliente.save();
 
       return cliente;
+    },
+
+    actualizarCliente: async (_,{id, input}, ctx) => {
+      const cliente = await Cliente.findById(id);
+      if (!cliente) {
+        throw new Error('No existe cliente con este ID');
+      }
+      if (cliente.vendedor.toString() !== ctx.usuario.id) {
+        throw new Error('Este cliente no pertenece a usted');
+      }
+      const clienteActualizado = await Cliente.findByIdAndUpdate({_id:id}, input, { new: true });
+      return clienteActualizado;
     }
   }
 }
