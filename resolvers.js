@@ -50,6 +50,21 @@ const resolvers = {
       } catch (error) {
         console.log(error);
       }
+    },
+    obtenerClienteVendedor: async (_, __, ctx) => {
+      console.log(ctx.usuario.id);
+      const vendedorID = ctx.usuario.id.toString();
+      if (vendedorID) {
+        try {
+          const clientes = await Clientes.find({ vendedor: vendedorID })
+          if (clientes.length == 0) {
+            throw new Error('No existen clientes para este vendedor');
+          }
+          return clientes
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }
   },
 
@@ -82,7 +97,6 @@ const resolvers = {
       }
     },
     autenticarUsuario: async (_, { input }) => {
-
       const { email, password } = input;
       const existeUsuario = await Usuario.findOne({ email });
 
