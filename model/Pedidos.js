@@ -30,4 +30,4 @@ const PedidosSchema = mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Pedido', UsuariosSchema);
+module.exports = mongoose.model('Pedido', PedidosSchema);

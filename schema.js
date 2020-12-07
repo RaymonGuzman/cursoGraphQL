@@ -1,11 +1,11 @@
-const { gql } = require("apollo-server");
+const { gql } = require('apollo-server');
 //Schema
 
 const typeDefs = gql`
   type Query {
     #Usuarios
     obtenerUsuarioID(token: String!): Usuario
-    
+
     #Productos
     obtenerProductos: [Producto]
     obtenerProducto(id: ID!): Producto
@@ -13,9 +13,9 @@ const typeDefs = gql`
     #Clientes
     obtenerClientes: [Cliente]
     obtenerClienteVendedor: [Cliente]
-    obtenerCliente(id:ID!): Cliente
+    obtenerCliente(id: ID!): Cliente
   }
-  
+
   #Usuario
   type Usuario {
     id: ID
@@ -40,7 +40,7 @@ const typeDefs = gql`
 
   #Productos
   type Producto {
-    id:ID
+    id: ID
     nombre: String
     modelo: String
     existencia: Int
@@ -57,29 +57,62 @@ const typeDefs = gql`
 
   #Cliente
   type Cliente {
-    id:ID
-    nombre:String
-    apellido:String
-    empresa:String
-    email:String
-    telefono:String
-    vendedor:ID
+    id: ID
+    nombre: String
+    apellido: String
+    empresa: String
+    email: String
+    telefono: String
+    vendedor: ID
   }
 
   input ClienteInput {
-    nombre:String!
-    apellido:String!
-    empresa:String!
-    email:String!
-    telefono:String!
+    nombre: String!
+    apellido: String!
+    empresa: String!
+    email: String!
+    telefono: String!
   }
 
   input ClienteActualizacionInput {
-    nombre:String
-    apellido:String
-    empresa:String
-    email:String
-    telefono:String
+    nombre: String
+    apellido: String
+    empresa: String
+    email: String
+    telefono: String
+  }
+
+  #Pedidos
+  enum PedidoEstado {
+    PENDIENTE
+    PROCESADO
+    RECHAZADO
+  }
+  type Pedido {
+    id: ID
+    pedido: [PedidoProducto]
+    total: Float!
+    cliente: ID!
+    vendedor: ID!
+    estado: PedidoEstado
+    creado: String
+  }
+
+  type PedidoProducto {
+    id: ID
+    cantidad: Int
+  }
+
+  input PedidoInput {
+    pedido: [PedidoProductoInput]
+    total: Float!
+    cliente: ID!
+    estado: PedidoEstado
+  }
+
+  input PedidoProductoInput {
+    id: ID
+    cantidad: Int
   }
 
   type Mutation {
@@ -89,13 +122,16 @@ const typeDefs = gql`
 
     #Productos
     nuevoProducto(input: ProductoInput): Producto
-    actualizarProducto(id:ID!, input:ProductoInput): Producto
-    eliminarProducto(id:ID!) : Producto
+    actualizarProducto(id: ID!, input: ProductoInput): Producto
+    eliminarProducto(id: ID!): Producto
 
     #Clientes
-    nuevoCliente(input:ClienteInput): Cliente
-    actualizarCliente(id:ID!, input:ClienteActualizacionInput): Cliente
-    eliminarCliente(id:ID!): Cliente
+    nuevoCliente(input: ClienteInput): Cliente
+    actualizarCliente(id: ID!, input: ClienteActualizacionInput): Cliente
+    eliminarCliente(id: ID!): Cliente
+
+    #Pedidos
+    nuevoPedido(input: PedidoInput): Pedido
   }
 `;
 
