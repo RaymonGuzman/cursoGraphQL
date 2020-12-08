@@ -14,6 +14,10 @@ const typeDefs = gql`
     obtenerClientes: [Cliente]
     obtenerClienteVendedor: [Cliente]
     obtenerCliente(id: ID!): Cliente
+
+    #Pedidos
+    obtenerPedidos: [Pedido]
+    obtenerPedidosVendedor: [Pedido]
   }
 
   #Usuario

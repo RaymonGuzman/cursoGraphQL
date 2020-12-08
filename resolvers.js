@@ -76,6 +76,27 @@ const resolvers = {
       }
       return cliente;
     },
+
+    // Pedidos
+    obtenerPedidos: async () => {
+      try {
+        const pedidos = await Pedido.find({});
+        return pedidos;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    obtenerPedidosVendedor: async (_, __, ctx) => {
+      const vendedorID = ctx.usuario.id;
+
+      try {
+        const pedidos = await Pedido.find({ vendedor: vendedorID });
+        return pedidos;
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 
   Mutation: {
