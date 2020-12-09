@@ -97,6 +97,21 @@ const resolvers = {
         console.log(error);
       }
     },
+    obtenerPedido: async (_, { id }, ctx) => {
+      const vendedorID = ctx.usuario.id;
+
+      const pedido = await Pedido.findById(id);
+
+      if (!pedido) {
+        throw new Error('El pedido no existe');
+      }
+
+      if (pedido.vendedor.toString() !== vendedorID) {
+        throw new Error('Este pedido no le pertenece a usted');
+      }
+
+      return pedido;
+    },
   },
 
   Mutation: {
