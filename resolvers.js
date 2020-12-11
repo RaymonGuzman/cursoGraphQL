@@ -223,7 +223,9 @@ const resolvers = {
       if (cliente.vendedor.toString() !== ctx.usuario.id) {
         throw new Error('Este cliente no pertenece a usted');
       }
-      const clienteActualizado = await Cliente.findByIdAndUpdate(id, input, {new: true,});
+      const clienteActualizado = await Cliente.findByIdAndUpdate(id, input, {
+        new: true,
+      });
       return clienteActualizado;
     },
 
@@ -276,8 +278,7 @@ const resolvers = {
 
       return resultadoPedido;
     },
-    actualizarPedido: async (_,{id,input},ctx) => {
-
+    actualizarPedido: async (_, { id, input }, ctx) => {
       const vendedorID = ctx.usuario.id;
 
       const pedidoID = await Pedido.findById(id);
@@ -289,10 +290,7 @@ const resolvers = {
       if (pedidoID.vendedor.toString() !== vendedorID) {
         throw new Error('Este pedido no le pertenece a usted');
       }
-      // console.log(input);
-      //Seteando variable para recorrer el input
-      // console.log(pedidoID.pedido[1]);
-      let counter=0;
+
       for await (const pedido of input.pedido) {
         const producto = await Producto.findById(pedido.id);
         if (pedido.cantidad > producto.existencia) {
@@ -300,50 +298,24 @@ const resolvers = {
             `La cantidad en existencia del producto ${producto.nombre} es menor a la seleccionada`
           );
         } else {
-          // console.log(pedido);
-          
-          // if(p)
-          // let arreglo = pedidoID.pedido[0];
-          // console.log(pedidoID[0]);
-          // console.log(pedido);
-          // console.log(arreglo);
-          for await (const pedidoCreado of pedidoID.pedido){
-            if(pedido.id==pedidoCreado.id) {
-              
-              console.log(`Pedido ${pedido.id} Cantidad ${pedido.cantidad} cantidad creada anteriormente ${pedidoCreado.cantidad}`);
+          for await (const pedidoCreado of pedidoID.pedido) {
+            if (pedido.id == pedidoCreado.id) {
+              // console.log(producto.existencia);
+              let restaurarProducto = producto.existencia;
+              // Le sumamos la cantidad que le restamos en eso pedido ya creado para restaurarlo
+              restaurarProducto += pedidoCreado.cantidad;
+              // A continuación le restamos la nueva cantidad que ha de ser actualizada
+              restaurarProducto -= pedido.cantidad;
 
+              producto.existencia = restaurarProducto;
+              await producto.save();
             }
           }
-          // console.log(pedido.id);
-          // console.log(pedidoID.pedido[counter].id);
-          // Estamos comparando de que cada vez que se ejecute la operación pues coincida con el mismo id del input
-          if(pedido.id==input.pedido[counter].id){
-            // console.log(`pedido en la posicion ${counter}`);
-            // console.log(pedidoID.pedido[counter].cantidad);
-            // console.log([pedido]);
-            // console.log(input.pedido[counter]);
-            // console.log(producto);
-            let cantidadPedido=producto.existencia;
-            // console.log(cantidadPedido);
-            cantidadPedido+=pedido.cantidad; 
-            cantidadPedido-=input.pedido[counter].cantidad; 
-            // console.log(cantidadPedido);
-
-
-          }
-          // console.log(input.pedido.length);
-          // if(pedido.existencia==input.existencia)
-          // Restar la cantidad que hay en existencia
-          // producto.existencia = producto.existencia - pedido.cantidad;
-          // console.log(counter);
-          counter++;
-          // await producto.save();
         }
       }
-      // if(input.)
-      // resutltadoPedido = await pedido.findByIdAndUpdate({ _id: id }, input ,{new: true})
-      // return resutltadoPedido;
-    }
+      resultadoPedido = await Pedido.findByIdAndUpdate( { _id: id }, input, {new: true} );
+      return resultadoPedido;
+    },
   },
 };
 

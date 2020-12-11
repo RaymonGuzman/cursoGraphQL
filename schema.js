@@ -137,7 +137,7 @@ const typeDefs = gql`
 
     #Pedidos
     nuevoPedido(input: PedidoInput): Pedido
-    actualizarPedido(id:ID!, input: PedidoInput): String
+    actualizarPedido(id: ID!, input: PedidoInput): Pedido
   }
 `;
 
