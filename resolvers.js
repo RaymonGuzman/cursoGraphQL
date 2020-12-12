@@ -112,6 +112,22 @@ const resolvers = {
 
       return pedido;
     },
+    obtenerPedidoEstado: async (_, { estado }, ctx) => {
+      const vendedorID = ctx.usuario.id;
+
+      try {
+        const pedidos = await Pedido.find({
+          estado: estado,
+          vendedor: vendedorID,
+        });
+        if (pedidos.length == 0) {
+          throw new Error(`No existen pedidos en el estado ${estado}`);
+        }
+        return pedidos;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
   },
 
   Mutation: {
@@ -313,8 +329,33 @@ const resolvers = {
           }
         }
       }
-      resultadoPedido = await Pedido.findByIdAndUpdate( { _id: id }, input, {new: true} );
+      resultadoPedido = await Pedido.findByIdAndUpdate({ _id: id }, input, {
+        new: true,
+      });
       return resultadoPedido;
+    },
+    eliminarPedido: async (_, { id }, ctx) => {
+      // console.log(id);
+      const vendedorID = ctx.usuario.id;
+
+      const pedidoID = await Pedido.findById(id);
+      // console.log(pedidoID);
+      if (!pedidoID) {
+        throw new Error('El pedido no existe');
+      }
+
+      if (pedidoID.vendedor.toString() !== vendedorID) {
+        throw new Error('Este pedido no le pertenece a usted');
+      }
+
+      for await (const pedidoCreado of pedidoID.pedido) {
+        const producto = await Producto.findById(pedidoCreado.id);
+        producto.existencia += pedidoCreado.cantidad;
+
+        await producto.save();
+      }
+      const resultado = await Pedido.findByIdAndDelete(id);
+      return resultado;
     },
   },
 };
