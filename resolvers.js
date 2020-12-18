@@ -4,6 +4,7 @@ const Cliente = require('./model/Clientes');
 const Pedido = require('./model/Pedidos');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const Pedidos = require('./model/Pedidos');
 
 require('dotenv').config({ path: 'variables.env' });
 
@@ -127,6 +128,58 @@ const resolvers = {
       } catch (error) {
         throw new Error(error);
       }
+    },
+    obtenerMejoresClientes: async () => {
+      const pedidos = Pedidos.aggregate([
+        { $match: { estado: 'COMPLETADO' } },
+        {
+          $group: {
+            _id: '$cliente', //Nombre del modelo
+            total: { $sum: '$total' },
+          },
+        },
+        {
+          $lookup: {
+            from: 'clientes',
+            localField: '_id',
+            foreignField: '_id',
+            as: 'cliente',
+          },
+        },
+        {
+          $sort: { total: -1 },
+        },
+      ]);
+
+      return pedidos;
+    },
+
+    obtenerMejoresVendedores: async () => {
+      const vendedores = await Pedido.aggregate([
+        { $match: { estado: 'COMPLETADO' } },
+        {
+          $group: {
+            _id: '$vendedor',
+            total: { $sum: '$total' },
+          },
+        },
+        {
+          $lookup: {
+            from: 'usuarios',
+            localField: '_id',
+            foreignField: '_id',
+            as: 'vendedor',
+          },
+        },
+        {
+          $limit: 3,
+        },
+        {
+          $sort: { total: -1 },
+        },
+      ]);
+
+      return vendedores;
     },
   },
 

@@ -20,6 +20,10 @@ const typeDefs = gql`
     obtenerPedidosVendedor: [Pedido]
     obtenerPedido(id: ID!): Pedido
     obtenerPedidoEstado(estado: PedidoEstado!): [Pedido]
+
+    #Avanzados
+    obtenerMejoresClientes: [TopClientes]
+    obtenerMejoresVendedores: [TopVendedor]
   }
 
   #Usuario
@@ -91,7 +95,7 @@ const typeDefs = gql`
   #Pedidos
   enum PedidoEstado {
     PENDIENTE
-    PROCESADO
+    COMPLETADO
     RECHAZADO
   }
   type Pedido {
@@ -119,6 +123,18 @@ const typeDefs = gql`
   input PedidoProductoInput {
     id: ID
     cantidad: Int
+  }
+
+  #Avanzados
+
+  type TopClientes {
+    cliente: [Cliente]
+    total: Float!
+  }
+
+  type TopVendedor {
+    vendedor: [Usuario]
+    total: Float!
   }
 
   type Mutation {
