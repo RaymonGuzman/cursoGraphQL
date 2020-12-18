@@ -24,6 +24,7 @@ const typeDefs = gql`
     #Avanzados
     obtenerMejoresClientes: [TopClientes]
     obtenerMejoresVendedores: [TopVendedor]
+    buscarProducto(texto: String!): [Producto]
   }
 
   #Usuario
