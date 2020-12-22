@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react';
 import Layout from '../components/Layout';
-const Nosotros = () => {
+const Pedidos = () => {
   return (
     <div>
       <Layout>
-        <h1> Nosotros </h1>
+        <h1 className="text-2xl text-gray-800 font-light"> Pedidos </h1>
       </Layout>
     </div>
   );
 };
 
-export default Nosotros;
+export default Pedidos;
