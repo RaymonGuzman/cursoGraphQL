@@ -33,3 +33,8 @@ $ npm i jsonwebtoken
 
 --How to kill port in use
 ```sudo fuser -k 4000/tcp```
+
+
+--FrontEnd
+--In Desktop path or another path different from the current project
+--npx create-net-app crmcliente
