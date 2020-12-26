@@ -41,6 +41,7 @@ const nuevaCuenta = () => {
                   type="text"
                   placeholder="Nombre de Usuario"
                   value={formik.values.nombre}
+                  onChange={formik.handleChange}
                 ></input>
               </div>
               <div className="mb-4">
@@ -56,6 +57,7 @@ const nuevaCuenta = () => {
                   type="text"
                   placeholder="Apellido del Usuario"
                   value={formik.values.apellido}
+                  onChange={formik.handleChange}
                 ></input>
               </div>
               <div className="mb-4">
@@ -71,6 +73,7 @@ const nuevaCuenta = () => {
                   type="email"
                   placeholder="Email Usuario"
                   value={formik.values.email}
+                  onChange={formik.handleChange}
                 ></input>
               </div>
               <div className="mb-4">
@@ -86,6 +89,7 @@ const nuevaCuenta = () => {
                   type="password"
                   placeholder="Password Usuario"
                   value={formik.values.password}
+                  onChange={formik.handleChange}
                 ></input>
               </div>
 
