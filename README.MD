@@ -37,4 +37,8 @@ $ npm i jsonwebtoken
 
 --FrontEnd
 --In Desktop path or another path different from the current project
---npx create-net-app crmcliente
+--npx create-next-app crmcliente
+
+--To validate Form, install Formik and Yup
+--Install this inside our next.js app (crmcliente folder in this case)
+$ npm i formik yup
