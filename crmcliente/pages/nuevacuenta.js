@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import Layout from '../components/Layout';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useQuery, gql } from '@apollo/client';
 
 const nuevaCuenta = () => {
   // Validación del formulario
@@ -13,15 +14,14 @@ const nuevaCuenta = () => {
       password: '',
     },
     validationSchema: Yup.object({
-      nombre: Yup.string()
-                    .required('El Nombre es obligatorio'),
+      nombre: Yup.string().required('El Nombre es obligatorio'),
       apellido: Yup.string().required('El Apellido es obligatorio'),
       email: Yup.string()
-                    .email('El email no es válido')
-                    .required('El Email es obligatorio'),
+        .email('El email no es válido')
+        .required('El Email es obligatorio'),
       password: Yup.string()
-                    .required('El Password es obligatorio')
-                    .min(6, 'El Password debe al menos tener 6 caracteres'),
+        .required('El Password es obligatorio')
+        .min(6, 'El Password debe al menos tener 6 caracteres'),
     }),
     onSubmit: (valores) => {
       console.log(valores);

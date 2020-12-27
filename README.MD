@@ -46,3 +46,6 @@ $ npm i formik yup
 
 --To install apollo client and node fetch
 $ npm i @apollo/client node-fetch
+
+--Install graphql dependency
+$ npm i graphql
