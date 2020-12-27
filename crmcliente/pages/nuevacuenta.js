@@ -4,7 +4,26 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useQuery, gql } from '@apollo/client';
 
+const QUERY= gql`  {
+  obtenerProductos{
+    id
+    nombre
+    existencia
+    precio
+    creado
+  }
+}
+`;
+
 const nuevaCuenta = () => {
+
+  //Realizando consulta de prueba
+
+  const { data, loading, error } = useQuery(QUERY);
+  console.log(loading);
+  console.log(data);
+  console.log(error);
+
   // Validación del formulario
   const formik = useFormik({
     initialValues: {
@@ -14,14 +33,15 @@ const nuevaCuenta = () => {
       password: '',
     },
     validationSchema: Yup.object({
-      nombre: Yup.string().required('El Nombre es obligatorio'),
+      nombre: Yup.string()
+                    .required('El Nombre es obligatorio'),
       apellido: Yup.string().required('El Apellido es obligatorio'),
       email: Yup.string()
-        .email('El email no es válido')
-        .required('El Email es obligatorio'),
+                    .email('El email no es válido')
+                    .required('El Email es obligatorio'),
       password: Yup.string()
-        .required('El Password es obligatorio')
-        .min(6, 'El Password debe al menos tener 6 caracteres'),
+                    .required('El Password es obligatorio')
+                    .min(6, 'El Password debe al menos tener 6 caracteres'),
     }),
     onSubmit: (valores) => {
       console.log(valores);
