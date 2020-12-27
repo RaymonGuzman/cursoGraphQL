@@ -35,6 +35,7 @@ $ npm i jsonwebtoken
 ```sudo fuser -k 4000/tcp```
 
 
+-- (Inside our next app project) --
 --FrontEnd
 --In Desktop path or another path different from the current project
 --npx create-next-app crmcliente
@@ -42,3 +43,6 @@ $ npm i jsonwebtoken
 --To validate Form, install Formik and Yup
 --Install this inside our next.js app (crmcliente folder in this case)
 $ npm i formik yup
+
+--To install apollo client and node fetch
+$ npm i @apollo/client node-fetch
