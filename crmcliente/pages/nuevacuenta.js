@@ -3,6 +3,8 @@ import Layout from '../components/Layout';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useMutation, gql } from '@apollo/client';
+import { useRouter } from 'next/router';
+import { route } from 'next/dist/next-server/server/router';
 
 const NUEVA_CUENTA = gql`
   mutation nuevoUsuario($input: UsuarioInput) {
@@ -18,9 +20,13 @@ const NUEVA_CUENTA = gql`
 const nuevaCuenta = () => {
   //State para guardar mensaje
   const [mensaje, guardarMensaje] = useState(null);
+  const [error, setError] = useState(0);
 
   //Mutation para crear nueva usuario
   const [nuevoUsuario] = useMutation(NUEVA_CUENTA);
+
+  //Declarando la constante router
+  const router = useRouter();
 
   // Validación del formulario
   const formik = useFormik({
@@ -59,20 +65,34 @@ const nuevaCuenta = () => {
         });
 
         console.log(data);
+        console.log(data.nuevoUsuario.nombre);
+        guardarMensaje(
+          `Se ha creado un nuevo usuario con el nombre "${data.nuevoUsuario.nombre}"`
+        );
+        setTimeout(() => {
+          router.push('/login');
+        }, 5000);
       } catch (error) {
-        // console.log(error.message);
         guardarMensaje(error.message);
-
+        setError(1);
         setTimeout(() => {
           guardarMensaje(null);
-        }, 3000);
+        }, 5000);
       }
     },
   });
 
   const monstrarMensaje = () => {
+    //Creando mensaje de error en rojo en caso de que el usuario esté registrado
+    if (error == 1) {
+      return (
+        <div className="bg-white py-2 px-3 w-full my-3 max-w-sm text-center text-red-600 mx-auto">
+          <p> {mensaje} </p>
+        </div>
+      );
+    }
     return (
-      <div className="bg-white py-2 px-3 w-full my-3 max-w-sm text-center text-red-600 mx-auto">
+      <div className="bg-white py-2 px-3 w-full my-3 max-w-sm text-center mx-auto">
         <p> {mensaje} </p>
       </div>
     );
