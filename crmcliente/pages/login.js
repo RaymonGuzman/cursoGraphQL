@@ -62,6 +62,7 @@ const login = () => {
         setError(1);
         setTimeout(() => {
           setMensaje(null);
+          setError(0);
         }, 5000);
       }
     },

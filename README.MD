@@ -49,3 +49,7 @@ $ npm i @apollo/client node-fetch
 
 --Install graphql dependency
 $ npm i graphql
+
+--Install apollo link context
+--This allow us to pass the token from client to the server
+$ npm i apollo-link-context
