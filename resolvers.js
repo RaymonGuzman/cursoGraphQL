@@ -10,16 +10,19 @@ require('dotenv').config({ path: 'variables.env' });
 
 const crearToken = (usuario, palabra, expiresIn) => {
   const { id, email, nombre, apellido } = usuario;
-  return jwt.sign({ id }, palabra, { expiresIn });
+  return jwt.sign({ id, nombre, apellido, email }, palabra, { expiresIn });
 };
 // Resolvers
 const resolvers = {
   Query: {
     // Usuarios
-    obtenerUsuarioID: async (_, { token }) => {
+    obtenerUsuarioToken: async (_, { token }) => {
       const UsuarioId = await jwt.verify(token, process.env.PALABRA);
       console.log(UsuarioId);
       return UsuarioId;
+    },
+    obtenerUsuario: async(_,__,ctx) => {
+      return ctx.usuario;
     },
 
     // Productos

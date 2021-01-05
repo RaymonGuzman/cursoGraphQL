@@ -4,7 +4,8 @@ const { gql } = require('apollo-server');
 const typeDefs = gql`
   type Query {
     #Usuarios
-    obtenerUsuarioID(token: String!): Usuario
+    obtenerUsuarioToken(token: String!): Usuario
+    obtenerUsuario: Usuario
 
     #Productos
     obtenerProductos: [Producto]

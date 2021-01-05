@@ -1,8 +1,11 @@
 import React, { Fragment } from 'react';
 import Sidebar from '../components/Sidebar';
 import { useRouter } from 'next/router';
+import Header from '../components/Header';
+
 
 const layout = ({ children }) => {
+
   const router = useRouter();
 
   return (
@@ -30,6 +33,7 @@ const layout = ({ children }) => {
           <div className="flex min-h-screen">
             <Sidebar />
             <main className="sm:w-2/3 xl:4/5 sm:min-h-screen p-5">
+              <Header />
               {children}
             </main>
           </div>
