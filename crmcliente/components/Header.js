@@ -19,7 +19,7 @@ const Header = () => {
 
   if (loading) return <p>Loading...</p>;
 
-  if (!data.obtenerUsuario) {
+  if (!data) {
     router.push('/login');
   }
   const { nombre, apellido } = data.obtenerUsuario;
