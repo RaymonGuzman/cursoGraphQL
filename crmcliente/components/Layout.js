@@ -18,10 +18,10 @@ const layout = ({ children }) => {
           integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
           crossOrigin="anonymous"
         />
-        <link
+        {/* <link
           href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
           rel="stylesheet"
-        />
+        /> */}
       </head>
 
       {router.pathname === '/login' || router.pathname === '/nuevacuenta' ? (

@@ -53,3 +53,6 @@ $ npm i graphql
 --Install apollo link context
 --This allow us to pass the token from client to the server
 $ npm i apollo-link-context
+
+--Install Tailwind
+https://medium.com/better-programming/how-to-set-up-next-js-with-tailwind-css-b93ccd2d4164

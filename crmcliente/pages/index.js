@@ -1,8 +1,9 @@
 import Layout from '../components/Layout';
 import { useQuery, gql } from '@apollo/client';
+import { useRouter } from 'next/router';
 
 const CLIENTES_VENDEDOR = gql`
-  {
+  query obtenerClienteVendedor {
     obtenerClienteVendedor {
       id
       nombre
@@ -15,9 +16,19 @@ const CLIENTES_VENDEDOR = gql`
 `;
 
 export default function Home() {
-  const { data, loading, error } = useQuery(CLIENTES_VENDEDOR);
+  const router = useRouter();
+  const { data, loading, error, client } = useQuery(CLIENTES_VENDEDOR);
+  console.log(data);
 
-  if (loading) return 'Cargando...';
+  if (loading) return <p>Cargando...</p>;
+
+  if (!data) {
+    if (!data.obtenerClienteVendedor) {
+      client.clearStore();
+      router.push('/login');
+      return <p>Loading...</p>;
+    }
+  }
 
   return (
     <Layout>
