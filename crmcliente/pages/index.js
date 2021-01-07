@@ -18,7 +18,7 @@ const CLIENTES_VENDEDOR = gql`
 export default function Home() {
   const router = useRouter();
   const { data, loading, error, client } = useQuery(CLIENTES_VENDEDOR);
-  console.log(data);
+  // console.log(data);
 
   if (loading) return <p>Cargando...</p>;
 
