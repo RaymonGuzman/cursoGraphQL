@@ -2,8 +2,27 @@ import React from 'react';
 import Layout from '../components/Layout';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useMutation, gql } from '@apollo/client';
+import { useRouter } from 'next/router';
+
+const NUEVO_CLIENTE = gql`
+  mutation nuevoCliente($input: ClienteInput) {
+    nuevoCliente(input: $input) {
+      id
+      nombre
+      apellido
+      empresa
+      email
+      telefono
+      vendedor
+    }
+  }
+`;
 
 const nuevosClientes = () => {
+  const [nuevoCliente] = useMutation(NUEVO_CLIENTE);
+  const router = useRouter();
+
   const formik = useFormik({
     initialValues: {
       nombre: '',
@@ -22,10 +41,24 @@ const nuevosClientes = () => {
       telefono: Yup.string().required('El Telefono es obligatorio'),
     }),
     onSubmit: async (values) => {
+      const { nombre, apellido, empresa, email, telefono } = values;
+
       try {
-        console.log(values);
+        const { data } = await nuevoCliente({
+          variables: {
+            input: {
+              nombre,
+              apellido,
+              empresa,
+              email,
+              telefono,
+            },
+          },
+        });
+
+        router.push('/');
       } catch (error) {
-        // console.log(errors.nombre);
+        console.log(error);
       }
     },
   });
