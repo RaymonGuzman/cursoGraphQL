@@ -101,7 +101,7 @@ const nuevaCuenta = () => {
     <div>
       <Layout>
         {mensaje && monstrarMensaje()}
-        <h1 className="text-2xl text-center text-white font-light"> Login </h1>
+        <h1 className="text-2xl text-center text-white font-light"> Nueva Cuenta </h1>
 
         <div className="flex justify-center mt-5">
           <div className="w-full max-w-sm">
