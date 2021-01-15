@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -33,12 +33,13 @@ const CLIENTES_VENDEDOR = gql`
 `;
 
 const nuevosClientes = () => {
+  const [mensaje, setMensaje] = useState(null);
   // mutation para crear nuevos clientes
   const [nuevoCliente] = useMutation(NUEVO_CLIENTE, {
     update(cache, { data: { nuevoCliente } }) {
       // Obtener el objeto de cache que deseamos actualizar
       const { obtenerClienteVendedor } = cache.readQuery({
-        query: CLIENTES_VENDEDOR
+        query: CLIENTES_VENDEDOR,
       });
 
       // Reescribimos el cache ( el cache nunca se debe modificar )
@@ -87,15 +88,29 @@ const nuevosClientes = () => {
 
         router.push('/');
       } catch (error) {
-        console.log(error);
+        setMensaje(error.message);
+        setTimeout(() => {
+          setMensaje(null);
+        }, 3000);
       }
     },
   });
+
+  const monstrarMensaje = () => {
+    //Creando mensaje de error en rojo en caso de que el usuario esté registrado
+    return (
+      <div className="bg-white py-2 px-3 w-full my-3 max-w-sm text-center text-red-600 mx-auto">
+        <p> {mensaje} </p>
+      </div>
+    );
+  };
+
   return (
     <Layout>
       <h1 className="text-2xl text-white text-center font-light">
         Nuevos Clientes
       </h1>
+      {mensaje && monstrarMensaje()}
       <div className="flex justify-center">
         <div className="w-full max-w-lg">
           <form
@@ -224,7 +239,7 @@ const nuevosClientes = () => {
 
             <input
               type="submit"
-              className="bg-gray-800 w-full mt-5 text-white uppercase hover:bg-gray-600"
+              className="bg-gray-800 w-full mt-5 py-2 text-white uppercase hover:bg-gray-600"
               value="Crear Cliente"
             ></input>
           </form>
