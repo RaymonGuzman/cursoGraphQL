@@ -1,4 +1,5 @@
 import Layout from '../components/Layout';
+import Cliente from '../components/Cliente';
 import { useQuery, gql } from '@apollo/client';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -32,7 +33,7 @@ export default function Home() {
     <Layout>
       <h1 className="text-2xl text-gray-800"> Clientes </h1>
       <Link href="/nuevosclientes">
-        <a className="bg-gray-800 text-white px-1 py-1 mb-3 inline-block rounded uppercase text-sm shadow-md hover:bg-blue-500">
+        <a className="bg-gray-800 text-white px-3 py-2 mb-3 inline-block rounded font-bold text-sm shadow-md hover:bg-blue-500">
           Nuevos Clientes
         </a>
       </Link>
@@ -43,20 +44,13 @@ export default function Home() {
             <th className="w-1/3 py-2">Nombre</th>
             <th className="w-2/3 py-2">Empresa</th>
             <th className="w-1/3 py-2">Email</th>
+            <th>Eliminar</th>
           </tr>
         </thead>
         <tbody className="bg-white">
           {data.obtenerClienteVendedor.map((cliente) => (
             <tr key={cliente.id}>
-              <td className="border px-4 py-2 border-gray-300">
-                {cliente.nombre} {cliente.apellido}
-              </td>
-              <td className="border px-4 py-2 border-gray-300">
-                {cliente.empresa}
-              </td>
-              <td className="border px-4 py-2 border-gray-300">
-                {cliente.email}
-              </td>
+              <Cliente cliente={cliente} />
             </tr>
           ))}
         </tbody>
