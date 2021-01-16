@@ -313,9 +313,9 @@ const resolvers = {
       if (cliente.vendedor.toString() !== ctx.usuario.id) {
         throw new Error('Este cliente no pertenece a usted');
       }
-      const eliminarCliente = Cliente.findByIdAndDelete(id);
+      const eliminarCliente = await Cliente.findByIdAndDelete(id);
 
-      return eliminarCliente;
+      return 'Cliente eliminado satisfactoriamente!';
     },
 
     //Pedidos

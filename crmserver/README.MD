@@ -56,3 +56,7 @@ $ npm i apollo-link-context
 
 --Install Tailwind
 https://medium.com/better-programming/how-to-set-up-next-js-with-tailwind-css-b93ccd2d4164
+
+--Install Sweet Alert
+--Inside crmcliente folder
+$ npm install sweetalert2

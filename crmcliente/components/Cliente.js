@@ -1,10 +1,44 @@
 import React from 'react';
+import { useMutation, gql } from '@apollo/client';
+import Swal from 'sweetalert2';
+
+const ELIMINAR_CLIENTE = gql`
+  mutation eliminarCliente($id: ID!) {
+    eliminarCliente(id: $id)
+  }
+`;
 
 const Cliente = ({ cliente }) => {
   const { id, nombre, apellido, empresa, email } = cliente;
 
-  const eliminarCliente = ({ id }) => {
+  const [eliminarCliente] = useMutation(ELIMINAR_CLIENTE);
+
+  const removerCliente = ({ id }) => {
     console.log(id);
+    Swal.fire({
+      title: '¿Seguro que desea eliminar el cliente?',
+      text: 'Este cambio no se podrá revertir!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar!',
+      cancelButtonText: 'No, cancelar',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const { data } = await eliminarCliente({
+            variables: {
+              id,
+            },
+          });
+
+          Swal.fire('Eliminado!', data.eliminarCliente, 'success');
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
   };
   return (
     <>
@@ -16,7 +50,7 @@ const Cliente = ({ cliente }) => {
       <td className="border px-5 py-2 border-gray-300">
         <button
           className="flex justifiy-center items-center m-3 bg-red-600 text-white font-bold px-4 py-1 rounded hover:bg-red-800"
-          onClick={() => eliminarCliente({ id })}
+          onClick={() => removerCliente({ id })}
         >
           Eliminar
           <svg
