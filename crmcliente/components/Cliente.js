@@ -1,5 +1,5 @@
 import React from 'react';
-import { useMutation, gql } from '@apollo/client';
+import { useMutation, useQuery, gql } from '@apollo/client';
 import Swal from 'sweetalert2';
 
 const ELIMINAR_CLIENTE = gql`
@@ -8,10 +8,38 @@ const ELIMINAR_CLIENTE = gql`
   }
 `;
 
+const CLIENTES_VENDEDOR = gql`
+  query obtenerClienteVendedor {
+    obtenerClienteVendedor {
+      id
+      nombre
+      apellido
+      empresa
+      email
+      vendedor
+    }
+  }
+`;
+
 const Cliente = ({ cliente }) => {
   const { id, nombre, apellido, empresa, email } = cliente;
 
-  const [eliminarCliente] = useMutation(ELIMINAR_CLIENTE);
+  const [eliminarCliente] = useMutation(ELIMINAR_CLIENTE, {
+    update(cache) {
+      const { obtenerClienteVendedor } = cache.readQuery({
+        query: CLIENTES_VENDEDOR
+      });
+
+      cache.writeQuery({
+        query: CLIENTES_VENDEDOR,
+        data: {
+          obtenerClienteVendedor: obtenerClienteVendedor.filter(
+            (clienteActual) => clienteActual.id !== id
+          )
+        },
+      });
+    },
+  });
 
   const removerCliente = ({ id }) => {
     console.log(id);
