@@ -1,10 +1,39 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
+import { useMutation, useQuery, gql } from '@apollo/client';
+
+const OBTENER_CLIENTE = gql`
+  query obtenerCliente($id: ID!) {
+    obtenerCliente(id: $id) {
+      id
+      nombre
+      apellido
+      email
+      empresa
+      vendedor
+    }
+  }
+`;
 
 const actualizarcliente = () => {
   const { query } = useRouter();
-  console.log(query);
+  // console.log(query);
+  const { id } = query;
+  // console.log(id);
+
+  const { data, loading, error } = useQuery(OBTENER_CLIENTE, {
+    variables: {
+      id,
+    },
+  });
+
+  if (loading) {
+    return <p>Cargando...</p>;
+  }
+
+  console.log(data.obtenerCliente);
+
   return (
     <Layout>
       <div className="flex justify-center">
