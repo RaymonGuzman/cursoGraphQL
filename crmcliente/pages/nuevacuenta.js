@@ -204,7 +204,7 @@ const nuevaCuenta = () => {
 
               <input
                 type="submit"
-                className="bg-gray-800 w-full mt-5 text-white uppercase hover:bg-gray-600"
+                className="bg-gray-800 w-full mt-5 py-2 text-white uppercase hover:bg-gray-600"
                 value="Crear Usuario"
               ></input>
             </form>
