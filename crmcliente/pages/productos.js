@@ -1,10 +1,59 @@
 import React, { Fragment } from 'react';
 import Layout from '../components/Layout';
+import { useQuery, gql } from '@apollo/client';
+
+const OBTENER_PRODUCTOS = gql`
+  {
+    obtenerProductos {
+      id
+      nombre
+      modelo
+      existencia
+      precio
+      creado
+    }
+  }
+`;
+
 const Productos = () => {
+  const { data, loading, error } = useQuery(OBTENER_PRODUCTOS);
+
+  loading && <p>Cargando...</p>;
+  // console.log(data.obtenerProductos);
+
   return (
     <div>
       <Layout>
-        <h1 className="text-2xl text-gray-800 font-light"> Productos </h1>
+        <h1 className="text-2xl text-gray-800"> Productos </h1>
+
+        <table className="table-auto shadow-md mt-10 w-full w-lg">
+          <thead className="bg-gray-800 text-white">
+            <tr>
+              <th className="w-1/3 py-2">Nombre</th>
+              <th className="w-1/3 py-2">Modelo</th>
+              <th className="w-1 py-2">Existencia</th>
+              <th className="w-1 py-2">Precio</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white">
+            {data.obtenerProductos.map((producto) => (
+              <tr>
+                <td className="border px-4 py-2 border-gray-300">
+                  {producto.nombre}
+                </td>
+                <td className="border px-4 py-2 border-gray-300">
+                  {producto.modelo}
+                </td>
+                <td className="border px-4 py-2 border-gray-300 text-center">
+                  {producto.existencia}
+                </td>
+                <td className="border px-4 py-2 border-gray-300 text-center">
+                  {producto.precio}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </Layout>
     </div>
   );
