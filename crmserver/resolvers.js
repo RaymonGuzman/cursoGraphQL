@@ -21,7 +21,7 @@ const resolvers = {
       console.log(UsuarioId);
       return UsuarioId;
     },
-    obtenerUsuario: async(_,__,ctx) => {
+    obtenerUsuario: async (_, __, ctx) => {
       return ctx.usuario;
     },
 
@@ -241,16 +241,17 @@ const resolvers = {
     // Productos
     nuevoProducto: async (_, { input }) => {
       const { nombre, modelo, precio, existencia } = input;
-      console.log(nombre);
+      // console.log(nombre);
 
-      const existeProducto = await Producto.findOne({ nombre });
-      if (existeProducto) {
+      const existeProductoNombre = await Producto.findOne({ nombre });
+      const existeProductoModelo = await Producto.findOne({ modelo });
+      if (existeProductoNombre && existeProductoModelo) {
         throw new Error('El producto ya está registrado');
       }
       try {
         const producto = new Producto(input);
         producto.save();
-        return producto;
+        return `Producto ${producto.nombre} creado correctamente!`;
       } catch (error) {
         console.log(error);
       }
@@ -263,7 +264,7 @@ const resolvers = {
 
       producto = Producto.findByIdAndUpdate({ _id: id }, input, { new: true });
 
-      return producto;
+      return `Producto ${producto.nombre} actualizado satisfactoriamente!`;
     },
     eliminarProducto: async (_, { id }) => {
       let producto = await Producto.findById(id);

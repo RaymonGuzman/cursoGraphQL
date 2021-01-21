@@ -3,19 +3,18 @@ import Layout from '../components/Layout';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useMutation, gql } from '@apollo/client';
+import Swal from 'sweetalert2';
+import { useRouter } from 'next/router';
 
 const NUEVO_PRODUCTO = gql`
   mutation nuevoProducto($input: ProductoInput) {
-    nuevoProducto(input: $input) {
-      id
-      nombre
-      existencia
-      precio
-    }
+    nuevoProducto(input: $input)
   }
 `;
 
 const nuevosproductos = () => {
+  const router = useRouter();
+
   const [nuevoProducto] = useMutation(NUEVO_PRODUCTO);
 
   const formik = useFormik({
@@ -50,6 +49,13 @@ const nuevosproductos = () => {
           },
         });
         console.log(data);
+        Swal.fire({
+          icon: 'success',
+          showConfirmButton: false,
+          title: data.nuevoProducto,
+          timer: 2500,
+        });
+        router.push('/productos');
       } catch (error) {
         console.log(error);
       }

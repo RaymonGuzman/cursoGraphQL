@@ -145,8 +145,8 @@ const typeDefs = gql`
     autenticarUsuario(input: AutenticarInput): Token
 
     #Productos
-    nuevoProducto(input: ProductoInput): Producto
-    actualizarProducto(id: ID!, input: ProductoInput): Producto
+    nuevoProducto(input: ProductoInput): String
+    actualizarProducto(id: ID!, input: ProductoInput): String
     eliminarProducto(id: ID!): Producto
 
     #Clientes
