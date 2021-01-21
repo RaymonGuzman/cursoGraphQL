@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import Layout from '../components/Layout';
 import { useQuery, gql } from '@apollo/client';
+import Link from 'next/link';
 
 const OBTENER_PRODUCTOS = gql`
   {
@@ -18,13 +19,19 @@ const OBTENER_PRODUCTOS = gql`
 const Productos = () => {
   const { data, loading, error } = useQuery(OBTENER_PRODUCTOS);
 
-  loading && <p>Cargando...</p>;
+  if(loading) return <p>Cargando...</p>;
   // console.log(data.obtenerProductos);
 
   return (
     <div>
       <Layout>
         <h1 className="text-2xl text-gray-800"> Productos </h1>
+
+        <Link href="/nuevosproductos">
+          <a className="bg-gray-800 text-white px-3 py-2 mb-3 inline-block rounded font-bold text-sm shadow-md hover:bg-blue-500">
+            Nuevos Productos
+          </a>
+        </Link>
 
         <table className="table-auto shadow-md mt-10 w-full w-lg">
           <thead className="bg-gray-800 text-white">
@@ -48,7 +55,7 @@ const Productos = () => {
                   {producto.existencia}
                 </td>
                 <td className="border px-4 py-2 border-gray-300 text-center">
-                  {producto.precio}
+                  {producto.precio} $
                 </td>
               </tr>
             ))}

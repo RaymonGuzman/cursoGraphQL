@@ -32,6 +32,7 @@ export default function Home() {
   return (
     <Layout>
       <h1 className="text-2xl text-gray-800"> Clientes </h1>
+      
       <Link href="/nuevosclientes">
         <a className="bg-gray-800 text-white px-3 py-2 mb-3 inline-block rounded font-bold text-sm shadow-md hover:bg-blue-500">
           Nuevos Clientes
