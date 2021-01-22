@@ -2,7 +2,7 @@ import React from 'react';
 import Layout from '../components/Layout';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useMutation, gql } from '@apollo/client';
+import { useMutation, useQuery, gql } from '@apollo/client';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/router';
 
@@ -12,26 +12,55 @@ const NUEVO_PRODUCTO = gql`
   }
 `;
 
+const OBTENER_PRODUCTOS = gql`
+  {
+    obtenerProductos {
+      id
+      nombre
+      modelo
+      existencia
+      precio
+      creado
+    }
+  }
+`;
+
 const nuevosproductos = () => {
   const router = useRouter();
 
-  const [nuevoProducto] = useMutation(NUEVO_PRODUCTO);
+  const [nuevoProducto] = useMutation(NUEVO_PRODUCTO, {
+    update(cache, { data: { nuevoProducto } }) {
+      const { obtenerProductos } = cache.readQuery({
+        query: OBTENER_PRODUCTOS,
+      });
+
+      cache.writeQuery({
+        query: OBTENER_PRODUCTOS,
+        data: {
+          obtenerProductos: [...obtenerProductos, nuevoProducto],
+        },
+      });
+    },
+  });
 
   const formik = useFormik({
     initialValues: {
       nombre: '',
       modelo: '',
-      existencia: 0,
-      precio: 0,
+      existencia: '',
+      precio: '',
     },
     validationSchema: Yup.object({
       nombre: Yup.string().required('Inserte el nombre del producto'),
       modelo: Yup.string(),
       existencia: Yup.number()
-        .min(1, 'la existenia debe ser mayor que 0')
+        .integer('La existencia deben ser numeros enteros')
+        .positive('No se aceptan numeros negativos')
+        // .min(1, 'la existenia debe ser mayor que 0')
         .required('Inserte la existencia del producto'),
       precio: Yup.number()
-        .min(1, 'el precio debe ser mayor que 0')
+        .positive('No se aceptan numeros negativos')
+        // .min(1, 'el precio debe ser mayor que 0')
         .required('Inserte el precio del producto'),
     }),
     onSubmit: async (values) => {
@@ -121,7 +150,7 @@ const nuevosproductos = () => {
             <div className="mb-4">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="empresa"
+                htmlFor="existencia"
               >
                 Existencia
               </label>

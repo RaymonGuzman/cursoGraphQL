@@ -147,7 +147,7 @@ const typeDefs = gql`
     #Productos
     nuevoProducto(input: ProductoInput): String
     actualizarProducto(id: ID!, input: ProductoInput): String
-    eliminarProducto(id: ID!): Producto
+    eliminarProducto(id: ID!): String
 
     #Clientes
     nuevoCliente(input: ClienteInput): Cliente

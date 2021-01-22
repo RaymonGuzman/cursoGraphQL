@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import Layout from '../components/Layout';
 import { useQuery, gql } from '@apollo/client';
 import Link from 'next/link';
+import Producto from '../components/Producto';
 
 const OBTENER_PRODUCTOS = gql`
   {
@@ -19,7 +20,7 @@ const OBTENER_PRODUCTOS = gql`
 const Productos = () => {
   const { data, loading, error } = useQuery(OBTENER_PRODUCTOS);
 
-  if(loading) return <p>Cargando...</p>;
+  if (loading) return <p>Cargando...</p>;
   // console.log(data.obtenerProductos);
 
   return (
@@ -39,24 +40,15 @@ const Productos = () => {
               <th className="w-1/3 py-2">Nombre</th>
               <th className="w-1/3 py-2">Modelo</th>
               <th className="w-1 py-2">Existencia</th>
-              <th className="w-1 py-2">Precio</th>
+              <th className="w-1/3 py-2">Precio</th>
+              <th className="w-1/3 py-2">Editar</th>
+              <th className="w-1/3 py-2">Eliminar</th>
             </tr>
           </thead>
           <tbody className="bg-white">
             {data.obtenerProductos.map((producto) => (
-              <tr>
-                <td className="border px-4 py-2 border-gray-300">
-                  {producto.nombre}
-                </td>
-                <td className="border px-4 py-2 border-gray-300">
-                  {producto.modelo}
-                </td>
-                <td className="border px-4 py-2 border-gray-300 text-center">
-                  {producto.existencia}
-                </td>
-                <td className="border px-4 py-2 border-gray-300 text-center">
-                  {producto.precio} $
-                </td>
+              <tr key={producto.id}>
+                <Producto producto={producto} />
               </tr>
             ))}
           </tbody>

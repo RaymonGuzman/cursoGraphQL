@@ -274,7 +274,7 @@ const resolvers = {
 
       producto = await Producto.findByIdAndDelete({ _id: id });
 
-      return producto;
+      return `Producto ${producto.nombre} de ${producto.existencia} cantidades en existencia fue eliminado satisfactoriamente!`;
     },
 
     // Clientes
