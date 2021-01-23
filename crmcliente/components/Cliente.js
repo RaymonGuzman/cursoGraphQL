@@ -88,7 +88,7 @@ const Cliente = ({ cliente }) => {
       <td className="border px-4 py-2 border-gray-300">{email}</td>
       <td className="border px-5 py-2 border-gray-300">
         <button
-          className="flex justifiy-center items-center m-3 bg-green-600 text-white font-bold px-4 py-1 rounded hover:bg-red-800"
+          className="flex justifiy-center items-center m-3 bg-green-600 text-white font-bold px-4 py-1 rounded hover:bg-green-800"
           onClick={() => editarCliente({ id })}
         >
           Editar

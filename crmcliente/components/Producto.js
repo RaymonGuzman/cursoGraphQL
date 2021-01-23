@@ -1,6 +1,7 @@
 import React from 'react';
 import { useMutation, useQuery, gql } from '@apollo/client';
 import Swal from 'sweetalert2';
+import { Router, useRouter } from 'next/router';
 
 const ELIMINAR_CLIENTE = gql`
   mutation eliminarProducto($id: ID!) {
@@ -21,6 +22,8 @@ const OBTENER_PRODUCTOS = gql`
 `;
 
 const Producto = ({ producto }) => {
+  const router = useRouter();
+
   const { id, nombre, modelo, existencia, precio } = producto;
 
   const [eliminarProducto] = useMutation(ELIMINAR_CLIENTE, {
@@ -67,6 +70,13 @@ const Producto = ({ producto }) => {
     });
     //
   };
+
+  const editarProducto = () => {
+    router.push({
+      pathname:'/actualizarproducto/[id]',
+      query: { id }
+    });
+  }
   // console.log(producto.nombre);
   return (
     <>
@@ -80,8 +90,8 @@ const Producto = ({ producto }) => {
       </td>
       <td className="border px-5 py-2 border-gray-300">
         <button
-          className="flex justifiy-center items-center m-3 bg-green-600 text-white font-bold px-4 py-1 rounded hover:bg-red-800"
-          // onClick={() => editarCliente({ id })}
+          className="flex justifiy-center items-center m-3 bg-green-600 text-white font-bold px-4 py-1 rounded hover:bg-green-800"
+          onClick={() => editarProducto()}
         >
           Editar
           <svg
