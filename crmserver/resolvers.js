@@ -262,9 +262,9 @@ const resolvers = {
         throw new Error('No existe el producto');
       }
 
-      producto = Producto.findByIdAndUpdate({ _id: id }, input, { new: true });
+      producto = await Producto.findByIdAndUpdate({ _id: id }, input, { new: true });
 
-      return `Producto ${producto.nombre} actualizado satisfactoriamente!`;
+      return `Producto actualizado satisfactoriamente!`;
     },
     eliminarProducto: async (_, { id }) => {
       let producto = await Producto.findById(id);
