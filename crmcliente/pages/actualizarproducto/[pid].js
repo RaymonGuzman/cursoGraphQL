@@ -17,6 +17,19 @@ const OBTENER_PRODUCTO = gql`
   }
 `;
 
+const OBTENER_PRODUCTOS = gql`
+  {
+    obtenerProductos {
+      id
+      nombre
+      modelo
+      existencia
+      precio
+      creado
+    }
+  }
+`;
+
 const ACTUALIZAR_PRODUCTO = gql`
   mutation actualizarProducto($id: ID!, $input: ProductoInput) {
     actualizarProducto(id: $id, input: $input)
@@ -33,7 +46,34 @@ const actualizarproducto = () => {
     },
   });
 
-  const [actualizarProducto] = useMutation(ACTUALIZAR_PRODUCTO);
+  const [actualizarProducto] = useMutation(ACTUALIZAR_PRODUCTO, {
+    update(cache, { data: actualizarProducto }) {
+      const { obtenerProductos } = cache.readQuery({
+        query: OBTENER_PRODUCTOS,
+      });
+
+      if (obtenerProductos != null) {
+        const productosActualizados = obtenerProductos.map((productos) =>
+          productos.id === id ? actualizarProducto : productos
+        );
+
+        cache.writeQuery({
+          query: OBTENER_PRODUCTOS,
+          data: {
+            obtenerProductos: productosActualizados,
+          },
+        });
+      }
+
+      // cache.writeQuery({
+      //   query:OBTENER_PRODUCTO,
+      //   variables: { id },
+      //   data:{
+      //     obtenerProducto: actualizarProducto
+      //   }
+      // });
+    },
+  });
 
   if (loading) return <p>Loading</p>;
 

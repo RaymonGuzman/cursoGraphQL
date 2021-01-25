@@ -34,6 +34,17 @@ const ACTUALIZAR_CLIENTE = gql`
   }
 `;
 
+const OBTENER_CLIENTES_VENDEDOR = gql`
+  {
+    obtenerClienteVendedor {
+      id
+      nombre
+      empresa
+      vendedor
+    }
+  }
+`;
+
 const actualizarcliente = () => {
   const { query } = useRouter();
   const route = useRouter();
@@ -47,7 +58,24 @@ const actualizarcliente = () => {
     },
   });
 
-  const [actualizarCliente] = useMutation(ACTUALIZAR_CLIENTE);
+  const [actualizarCliente] = useMutation(ACTUALIZAR_CLIENTE, {
+    update(cache, { data: actualizarCliente }) {
+      const { obtenerClienteVendedor } = cache.readQuery({
+        query: OBTENER_CLIENTES_VENDEDOR,
+      });
+
+      const clientesActualizados = obtenerClienteVendedor.map((clientes) =>
+        clientes.id === id ? actualizarCliente : clientes
+      );
+
+      cache.writeQuery({
+        query: OBTENER_CLIENTES_VENDEDOR,
+        data: {
+          obtenerClienteVendedor: clientesActualizados,
+        },
+      });
+    },
+  });
 
   if (loading) {
     return <p>Cargando...</p>;
