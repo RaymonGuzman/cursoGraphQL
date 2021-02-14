@@ -63,3 +63,6 @@ https://medium.com/better-programming/how-to-set-up-next-js-with-tailwind-css-b9
 --Install Sweet Alert
 --Inside crmcliente folder
 $ npm install sweetalert2
+
+--Install React-Select
+npm i react-select
