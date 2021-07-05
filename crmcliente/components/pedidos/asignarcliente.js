@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 
-const options = [
-  { id: 'chocolate', nombre: 'Chocolate' },
-  { id: 'strawberry', nombre: 'Strawberry' },
-  { id: 'vanilla', nombre: 'Vanilla' },
+const clientes = [
+  { id: 1, nombre: 'Pedro' },
+  { id: 2, nombre: 'Iralio Cruz' },
+  { id: 3, nombre: 'Pedro Bautista' },
 ];
 const AsignarCliente = () => {
 
@@ -14,16 +14,16 @@ const AsignarCliente = () => {
       console.log(pedidos);
     }, [pedidos]);
   
-    const seleccionarSabores = (sabores) => {
-      setPedidos(sabores);
+    const seleccionarClientes = (cliente) => {
+      setPedidos(cliente);
     };
 
     return (  
 
         <Select
-          options={options}
+          options={clientes}
           isMulti={true}
-          onChange={(opcion) => seleccionarSabores(opcion)}
+          onChange={(opcion) => seleccionarClientes(opcion)}
           getOptionValue={opciones=> opciones.id}
           getOptionLabel={opciones=>opciones.nombre}
         />    );
