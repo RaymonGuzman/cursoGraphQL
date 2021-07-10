@@ -10,7 +10,7 @@ import {
 
 const PedidoState = ({children}) => {
   const initialState = {
-    cliente: [],
+    cliente: {},
     productos: [],
     total: 0,
   };
