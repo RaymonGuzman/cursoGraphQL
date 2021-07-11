@@ -8,29 +8,32 @@ import {
   CANTIDAD_PRODUCTOS,
 } from "../../types";
 
-const PedidoState = ({children}) => {
+const PedidoState = ({ children }) => {
   const initialState = {
     cliente: {},
     productos: [],
     total: 0,
   };
 
-  const prueba = () => {
-    console.log("Constante de Prueba");
+  const [state, dispatch] = useReducer(PedidoReducer, initialState);
+
+  const asignarCliente = (clientes) => {
+    // console.log(cliente);
+    dispatch({
+      type: SELECCIONAR_CLIENTE,
+      payload: clientes
+    })
   };
 
-  const [state, dispatch] = useReducer(PedidoReducer, initialState);
   return (
     <PedidoContext.Provider
       value={{
-        prueba,
-        total: state.total
+        asignarCliente
       }}
     >
       {children}
     </PedidoContext.Provider>
   );
-  // return ('HOla');
 };
 
 export default PedidoState;

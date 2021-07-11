@@ -5,9 +5,6 @@ import PedidoContext from '../context/pedidos/PedidoContext';
 
 const nuevospedidos = () => {
   const context = useContext(PedidoContext);
-  const { prueba, total } = context;
-  console.log(total);
-  prueba();
   return (
     <Layout>
       <h1>Nuevos Pedidos</h1>
