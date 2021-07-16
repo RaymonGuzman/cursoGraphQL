@@ -25,10 +25,20 @@ const PedidoState = ({ children }) => {
     })
   };
 
+  const asignarProductos = (productos) => {
+    console.log(productos);
+    // dispatch({
+    //   type: SELECCIONAR_CLIENTE,
+    //   payload: clientes
+    // })
+  };
+
+
+
   return (
     <PedidoContext.Provider
       value={{
-        asignarCliente
+        asignarCliente, asignarProductos
       }}
     >
       {children}
