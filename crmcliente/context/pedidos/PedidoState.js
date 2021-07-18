@@ -38,7 +38,7 @@ const PedidoState = ({ children }) => {
   return (
     <PedidoContext.Provider
       value={{
-        asignarCliente, asignarProductos
+        asignarCliente, asignarProductos, productos: state.productos
       }}
     >
       {children}
