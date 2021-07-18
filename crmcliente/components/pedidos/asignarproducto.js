@@ -40,7 +40,7 @@ const AsignarCliente = () => {
         isMulti={true}
         onChange={(producto) => seleccionarProducto(producto)}
         getOptionValue={opciones => opciones.id}
-        getOptionLabel={opciones => opciones.nombre+' - '+opciones.existencia}
+        getOptionLabel={opciones => `${opciones.nombre} - ${opciones.existencia} Disponibles`}
       />
     </>
   );
