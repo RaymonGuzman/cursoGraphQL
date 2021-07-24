@@ -4,7 +4,7 @@ import AsignarCliente from '../components/pedidos/asignarcliente';
 import AsignarProducto from '../components/pedidos/asignarproducto';
 import ListarProductos from '../components/pedidos/listarproductos';
 import PedidoContext from '../context/pedidos/PedidoContext';
-
+import TotalPedidos from '../components/pedidos/totalPedidos';
 
 const nuevospedidos = () => {
   const context = useContext(PedidoContext);
@@ -16,6 +16,7 @@ const nuevospedidos = () => {
           <AsignarCliente/>
           <AsignarProducto/>
           <ListarProductos />
+          <TotalPedidos />
         </div>
       </div>
     </Layout>
