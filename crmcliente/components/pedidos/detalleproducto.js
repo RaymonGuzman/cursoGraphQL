@@ -22,6 +22,7 @@ const DetalleProducto = ({ producto }) => {
         placeholder="Cantidad"
         className="shadow apperance-none border rounded  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline md:ml-4"
         onChange={e => setCantidad(e.target.value)}
+        value={cantidad}
       />
 
     </div>
