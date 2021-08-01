@@ -16,7 +16,7 @@ const OBTENER_PRODUCTOS = gql`
   }
 `;
 
-const AsignarCliente = () => {
+const AsignarProducto = () => {
   const [producto, setProducto] = useState([]);
   const { data, loading, error } = useQuery(OBTENER_PRODUCTOS);
   const context = useContext(PedidoContext);
@@ -46,4 +46,4 @@ const AsignarCliente = () => {
   );
 }
 
-export default AsignarCliente;
+export default AsignarProducto;
