@@ -1,10 +1,11 @@
 import {
   SELECCIONAR_CLIENTE,
   SELECCIONAR_PRODUCTO,
-  CANTIDAD_PRODUCTOS
+  CANTIDAD_PRODUCTOS,
+  TOTAL_PEDIDOS
 } from "../../types";
 
-export default (state, action) => {
+const PedidoReducer =  (state, action) => {
   switch (action.type) {
     case SELECCIONAR_CLIENTE:
       return {
@@ -24,7 +25,15 @@ export default (state, action) => {
         productos: state.productos.map(producto => (producto.id === action.payload.id ? producto=action.payload : producto))
       };
 
+    case TOTAL_PEDIDOS:
+      return {
+        ...state,
+        total: state.productos.reduce ( (acucumulator, producto) => ( acucumulator + producto.precio * producto.cantidad ), 0 )
+      };
+
     default:
       return state;
   }
 }
+
+export default PedidoReducer;

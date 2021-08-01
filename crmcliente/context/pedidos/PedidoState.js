@@ -6,6 +6,7 @@ import {
   SELECCIONAR_CLIENTE,
   SELECCIONAR_PRODUCTO,
   CANTIDAD_PRODUCTOS,
+  TOTAL_PEDIDOS
 } from "../../types";
 
 const PedidoState = ({ children }) => {
@@ -38,7 +39,7 @@ const PedidoState = ({ children }) => {
 
     dispatch({
       type: SELECCIONAR_PRODUCTO,
-      payload: nuevoState
+      payload: nuevoStateProductos
     })
   };
 
@@ -46,6 +47,13 @@ const PedidoState = ({ children }) => {
     dispatch({
       type: CANTIDAD_PRODUCTOS,
       payload: nuevoProducto
+    })
+  };
+
+  const pedidosTotal = () => {
+    dispatch({
+      type: TOTAL_PEDIDOS,
+      // payload: nuevoProducto
     })
   };
 
@@ -57,7 +65,9 @@ const PedidoState = ({ children }) => {
         asignarCliente,
         asignarProductos,
         productos: state.productos,
-        asignarProductoCantidad
+        asignarProductoCantidad,
+        pedidosTotal,
+        total: state.total
       }}
     >
       {children}

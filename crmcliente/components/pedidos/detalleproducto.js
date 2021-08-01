@@ -4,12 +4,13 @@ import PedidoContext from '../../context/pedidos/PedidoContext';
 const DetalleProducto = ({ producto }) => {
   const [cantidad, setCantidad] = useState(0);
   const context = useContext(PedidoContext);
-  const { asignarProductoCantidad } = context;
+  const { asignarProductoCantidad, pedidosTotal } = context;
 
   const { nombre, precio } = producto;
   const nuevoProducto = { ...producto, cantidad: cantidad };
   useEffect(() => {
     asignarProductoCantidad(nuevoProducto)
+    pedidosTotal();
   }, [cantidad]);
   return (
     <div className="md:flex md:justify-between md:item-center mt-5">
