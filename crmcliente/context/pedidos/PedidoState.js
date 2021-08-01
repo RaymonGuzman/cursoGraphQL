@@ -26,19 +26,27 @@ const PedidoState = ({ children }) => {
   };
 
   const asignarProductos = (productos) => {
-    // console.log(productos);
+    let nuevoStateProductos;
+    if ( state.productos.length > 0) {
+      nuevoStateProductos = productos.map( producto => {
+        const nuevoProducto = state.productos.find( productoState => producto.id === productoState.id )
+        return { ...producto, ...nuevoProducto }
+      })
+    } else {
+      nuevoStateProductos = productos
+    }
+
     dispatch({
       type: SELECCIONAR_PRODUCTO,
-      payload: productos
+      payload: nuevoState
     })
   };
 
   const asignarProductoCantidad = (nuevoProducto) => {
-    console.log(nuevoProducto);
-    // dispatch({
-    //   type: SELECCIONAR_PRODUCTO,
-    //   payload: productos
-    // })
+    dispatch({
+      type: CANTIDAD_PRODUCTOS,
+      payload: nuevoProducto
+    })
   };
 
 
