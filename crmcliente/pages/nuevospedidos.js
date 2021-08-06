@@ -8,6 +8,7 @@ import TotalPedidos from '../components/pedidos/totalPedidos';
 
 const nuevospedidos = () => {
   const context = useContext(PedidoContext);
+  const { producto, total, cliente } = context;
   return (
     <Layout>
       <h1>Nuevos Pedidos</h1>
@@ -17,6 +18,11 @@ const nuevospedidos = () => {
           <AsignarProducto/>
           <ListarProductos />
           <TotalPedidos />
+          <input
+                type="button"
+                className="w-full bg-gray-800 mt-5 py-2 text-white uppercase hover:bg-gray-600"
+                value="Registrar Pedido"
+              />
         </div>
       </div>
     </Layout>

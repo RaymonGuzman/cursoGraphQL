@@ -67,7 +67,8 @@ const PedidoState = ({ children }) => {
         productos: state.productos,
         asignarProductoCantidad,
         pedidosTotal,
-        total: state.total
+        total: state.total,
+        cliente: state.cliente
       }}
     >
       {children}
