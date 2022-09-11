@@ -6,6 +6,7 @@ const typeDefs = gql`
     #Usuarios
     obtenerUsuarioToken(token: String!): Usuario
     obtenerUsuario: Usuario
+    obtenerUsuarios: [Usuario]
 
     #Productos
     obtenerProductos: [Producto]
@@ -142,6 +143,7 @@ const typeDefs = gql`
   type Mutation {
     #Usuario
     nuevoUsuario(input: UsuarioInput): Usuario
+    # nuevoUsuario(input: UsuarioInput): String
     autenticarUsuario(input: AutenticarInput): Token
 
     #Productos

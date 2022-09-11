@@ -25,6 +25,11 @@ const resolvers = {
       return ctx.usuario;
     },
 
+    obtenerUsuarios: async () => {
+      const usuarios = await Usuario.find();
+      return usuarios;
+    },
+
     // Productos
     obtenerProductos: async () => {
       try {
@@ -137,7 +142,7 @@ const resolvers = {
         { $match: { estado: 'COMPLETADO' } },
         {
           $group: {
-            _id: '$cliente', //Nombre del modelo
+            _id: '$cliente', // Nombre del campo que está en el módelo de Pedidos al cual hace referencia
             total: { $sum: '$total' },
           },
         },
@@ -193,8 +198,11 @@ const resolvers = {
   Mutation: {
     // Usuarios
     nuevoUsuario: async (_, { input }) => {
-      const { email, password } = input;
 
+      const { email, password } = input;
+      // return 'testing';
+      // console.log('Probando');
+      console.log(password);
       //Revisar si ya hay un usuario registrado
       const existeUsuario = await Usuario.findOne({ email });
       if (existeUsuario) {

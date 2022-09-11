@@ -88,6 +88,12 @@ const nuevosClientes = () => {
 
         router.push('/');
       } catch (error) {
+        if (error.message == `Cannot read properties of null (reading 'obtenerClienteVendedor')`
+          ||
+          error.message == `object null is not iterable (cannot read property Symbol(Symbol.iterator))`) {
+          router.push('/');
+        }
+        console.log(error.message);
         setMensaje(error.message);
         setTimeout(() => {
           setMensaje(null);
