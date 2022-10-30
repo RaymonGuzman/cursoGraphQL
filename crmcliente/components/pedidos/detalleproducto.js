@@ -7,7 +7,7 @@ const DetalleProducto = ({ producto }) => {
   const { asignarProductoCantidad, pedidosTotal } = context;
 
   const { nombre, precio } = producto;
-  const nuevoProducto = { ...producto, cantidad: cantidad };
+  const nuevoProducto = { ...producto, cantidad: Number(cantidad) };
   useEffect(() => {
     asignarProductoCantidad(nuevoProducto)
     pedidosTotal();
