@@ -1,16 +1,17 @@
-import React, { Fragment } from 'react';
-import Layout from '../components/Layout';
-import Pedido from '../components/Pedido';
-import Link from 'next/link';
-import { useQuery, gql } from '@apollo/client';
+import React, { Fragment } from "react";
+import Layout from "../components/Layout";
+import Pedido from "../components/Pedido";
+import Link from "next/link";
+import { useQuery, gql } from "@apollo/client";
 
 const OBTENER_PEDIDOS = gql`
-  query obtenerPedidos{
-    obtenerPedidos{
+  query obtenerPedidos {
+    obtenerPedidos {
       id
-      pedido{
+      pedido {
         id
         cantidad
+        nombre
       }
       total
       cliente
@@ -22,17 +23,13 @@ const OBTENER_PEDIDOS = gql`
 `;
 
 const Pedidos = () => {
-
   const { data, loading, error } = useQuery(OBTENER_PEDIDOS);
 
-  // const { data, loading, error } = obtenerPedidos;
+  if (loading) return "Cargando...";
 
-  if (loading) return 'Cargando...';
-  console.log(error);
   const { obtenerPedidos } = data;
-  // console.log(data);
-  console.log(obtenerPedidos);
 
+  console.log(data);
   return (
     <div>
       <Layout>
@@ -44,16 +41,12 @@ const Pedidos = () => {
           </a>
         </Link>
         {obtenerPedidos.length === 0 ? (
-          <p className='mt-5 text-center text-2xl'> No hay pedidos aún </p>
+          <p className="mt-5 text-center text-2xl"> No hay pedidos aún </p>
         ) : (
-          obtenerPedidos.map(pedido => (
-            <Pedido
-              key={pedido.id}
-              pedido={pedido}
-            />
+          obtenerPedidos.map((pedido) => (
+            <Pedido key={pedido.id} pedido={pedido} />
           ))
-        )
-        }
+        )}
       </Layout>
     </div>
   );

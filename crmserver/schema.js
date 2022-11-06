@@ -114,6 +114,8 @@ const typeDefs = gql`
   type PedidoProducto {
     id: ID
     cantidad: Int
+    nombre: String
+    precio: Float
   }
 
   input PedidoInput {
