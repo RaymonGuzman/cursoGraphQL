@@ -38,13 +38,18 @@ const ACTUALIZAR_PRODUCTO = gql`
 const actualizarproducto = () => {
   const { query } = useRouter();
   const route = useRouter();
-  const { id } = query;
+  const { id } =  query;
+
+  // console.log(id);
 
   const { data, loading, error } = useQuery(OBTENER_PRODUCTO, {
     variables: {
       id,
     },
   });
+
+  // if (loading) return "Loading";
+
 
   const [actualizarProducto] = useMutation(ACTUALIZAR_PRODUCTO, {
     update(cache, { data: actualizarProducto }) {
@@ -78,6 +83,7 @@ const actualizarproducto = () => {
   if (loading) return <p>Loading</p>;
 
   // const valuesFormik = data.obtenerProducto;
+  // console.log(error);
   const { obtenerProducto } = data;
 
   const formikSchema = Yup.object({
