@@ -100,7 +100,8 @@ const resolvers = {
       const vendedorID = ctx.usuario.id;
 
       try {
-        const pedidos = await Pedido.find({ vendedor: vendedorID });
+        const pedidos = await Pedido.find({ vendedor: vendedorID }).populate('cliente');
+
         return pedidos;
       } catch (error) {
         console.log(error);

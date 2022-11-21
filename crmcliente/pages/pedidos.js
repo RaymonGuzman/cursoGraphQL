@@ -6,7 +6,7 @@ import { useQuery, gql } from "@apollo/client";
 
 const OBTENER_PEDIDOS = gql`
   query obtenerPedidos {
-    obtenerPedidos {
+    obtenerPedidosVendedor {
       id
       pedido {
         id
@@ -14,7 +14,13 @@ const OBTENER_PEDIDOS = gql`
         nombre
       }
       total
-      cliente
+      cliente {
+        id
+        nombre
+        apellido
+        email
+        telefono
+      }
       vendedor
       estado
       creado
@@ -27,7 +33,7 @@ const Pedidos = () => {
 
   if (loading) return "Cargando...";
 
-  const { obtenerPedidos } = data;
+  const { obtenerPedidosVendedor } = data;
 
   console.log(data);
   return (
@@ -40,10 +46,10 @@ const Pedidos = () => {
             Nuevos Pedidos
           </a>
         </Link>
-        {obtenerPedidos.length === 0 ? (
+        {obtenerPedidosVendedor.length === 0 ? (
           <p className="mt-5 text-center text-2xl"> No hay pedidos aún </p>
         ) : (
-          obtenerPedidos.map((pedido) => (
+          obtenerPedidosVendedor.map((pedido) => (
             <Pedido key={pedido.id} pedido={pedido} />
           ))
         )}
