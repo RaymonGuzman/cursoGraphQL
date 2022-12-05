@@ -20,22 +20,9 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-//Deshabilitando caché al momento de realizar el query
-const defaultOptions = {
-  watchQuery: {
-    fetchPolicy: 'no-cache',
-    errorPolicy: 'ignore',
-  },
-  query: {
-    fetchPolicy: 'no-cache',
-    errorPolicy: 'all',
-  },
-};
-
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: authLink.concat(httpLink),
-  defaultOptions
   // defaultOptions: {
   //   watchQuery: {
   //     fetchPolicy: 'no-cache',

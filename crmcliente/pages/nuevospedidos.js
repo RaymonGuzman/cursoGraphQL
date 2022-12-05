@@ -28,6 +28,12 @@ const nuevospedidos = () => {
 
 
   //Mutation para crear un nuevo pedido
+  /**
+   * En este caso no es necesario actualizar el caché al momento de agregar un nuevo pedido, esto se debe a que el query
+   * para sacar los pedidos de los vendedores se le agregó la configuración para que no se cacheara, debido a un inconveniente
+   * ocurrido al momento de traerme las cantidades para un mismo cliente con el mismo producto pero con diferentes cantidades
+   * asignadas, sucedía que traía la misma cantidad del producto anterior aunque al posterior se le agregue un cantidad diferente
+   */
   const [nuevoPedido] = useMutation(NUEVO_PEDIDO);
 
   // console.log(Object.keys(cliente).length);

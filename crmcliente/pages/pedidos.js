@@ -29,8 +29,9 @@ const OBTENER_PEDIDOS = gql`
 `;
 
 const Pedidos = () => {
-  const { data, loading, error } = useQuery(OBTENER_PEDIDOS);
-
+  const { data, loading, error }  = useQuery(OBTENER_PEDIDOS,{
+     fetchPolicy: 'no-cache'
+  })
   if (loading) return "Cargando...";
 
   const { obtenerPedidosVendedor } = data;

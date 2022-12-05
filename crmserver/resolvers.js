@@ -366,7 +366,6 @@ const resolvers = {
     },
     actualizarPedido: async (_, { id, input }, ctx) => {
       const vendedorID = ctx.usuario.id;
-
       const pedidoID = await Pedido.findById(id);
 
       if (!pedidoID) {
@@ -377,24 +376,27 @@ const resolvers = {
         throw new Error('Este pedido no le pertenece a usted');
       }
 
-      for await (const pedido of input.pedido) {
-        const producto = await Producto.findById(pedido.id);
-        if (pedido.cantidad > producto.existencia) {
-          throw new Error(
-            `La cantidad en existencia del producto ${producto.nombre} es menor a la seleccionada`
-          );
-        } else {
-          for await (const pedidoCreado of pedidoID.pedido) {
-            if (pedido.id == pedidoCreado.id) {
-              // console.log(producto.existencia);
-              let restaurarProducto = producto.existencia;
-              // Le sumamos la cantidad que le restamos en eso pedido ya creado para restaurarlo
-              restaurarProducto += pedidoCreado.cantidad;
-              // A continuación le restamos la nueva cantidad que ha de ser actualizada
-              restaurarProducto -= pedido.cantidad;
+      if(input.pedido){
+        for await (const pedido of input.pedido) {
+          const producto = await Producto.findById(pedido.id);
+          console.log(producto);
+          if (pedido.cantidad > producto.existencia) {
+            throw new Error(
+              `La cantidad en existencia del producto ${producto.nombre} es menor a la seleccionada`
+            );
+          } else {
+            for await (const pedidoCreado of pedidoID.pedido) {
+              if (pedido.id == pedidoCreado.id) {
+                // console.log(producto.existencia);
+                let restaurarProducto = producto.existencia;
+                // Le sumamos la cantidad que le restamos en eso pedido ya creado para restaurarlo
+                restaurarProducto += pedidoCreado.cantidad;
+                // A continuación le restamos la nueva cantidad que ha de ser actualizada
+                restaurarProducto -= pedido.cantidad;
 
-              producto.existencia = restaurarProducto;
-              await producto.save();
+                producto.existencia = restaurarProducto;
+                await producto.save();
+              }
             }
           }
         }
@@ -425,7 +427,8 @@ const resolvers = {
         await producto.save();
       }
       const resultado = await Pedido.findByIdAndDelete(id);
-      return resultado;
+
+      return `El pedido ${resultado.id} fue eliminado satisfactoriamente!`;
     },
   },
 };
