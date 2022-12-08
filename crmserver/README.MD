@@ -66,3 +66,6 @@ $ npm install sweetalert2
 
 --Install React-Select
 $ npm i --save react-select
+
+--Install Recharts
+$ npm install recharts
