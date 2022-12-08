@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { gql, useQuery } from '@apollo/client';
@@ -64,10 +64,21 @@ const MEJORES_VENDEDORES = gql`
 
 const MejoresVendedores = () => {
 
-    const { data, loading, error } = useQuery(MEJORES_VENDEDORES);
+    const { data, loading, error, startPolling, stopPolling } = useQuery(MEJORES_VENDEDORES);
     // console.log(data);
+
+    useEffect( () => {
+        startPolling(1000);
+        return () => {
+            stopPolling();
+        }
+
+    },[startPolling, stopPolling])
+
     console.log(loading);
+
     if (loading) return 'Cargando...'
+    console.log(data);
     // console.log(error);
 
     const mejoresVendedores = [];
