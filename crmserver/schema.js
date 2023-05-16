@@ -35,6 +35,7 @@ const typeDefs = gql`
     nombre: String
     apellido: String
     email: String
+    rol: String
     creado: String
   }
   type Token {
@@ -45,6 +46,12 @@ const typeDefs = gql`
     apellido: String!
     email: String!
     password: String!
+    rol: rolUsuario
+  }
+
+  enum rolUsuario {
+    employee
+    admin
   }
   input AutenticarInput {
     email: String!

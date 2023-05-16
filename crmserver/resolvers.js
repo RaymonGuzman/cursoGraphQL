@@ -9,8 +9,9 @@ const Pedidos = require('./model/Pedidos');
 require('dotenv').config({ path: 'variables.env' });
 
 const crearToken = (usuario, palabra, expiresIn) => {
-  const { id, email, nombre, apellido } = usuario;
-  return jwt.sign({ id, nombre, apellido, email }, palabra, { expiresIn });
+  // console.log(usuario);
+  const { id, email, nombre, apellido, rol } = usuario;
+  return jwt.sign({ id, nombre, apellido, email, rol }, palabra, { expiresIn });
 };
 // Resolvers
 const resolvers = {
@@ -60,7 +61,7 @@ const resolvers = {
     },
 
     obtenerClienteVendedor: async (_, __, ctx) => {
-      // console.log(ctx.usuario.id);
+      console.log(ctx.usuario);
       const vendedorID = ctx.usuario.id.toString();
       if (vendedorID) {
         try {

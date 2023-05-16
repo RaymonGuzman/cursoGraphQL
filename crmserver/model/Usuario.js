@@ -23,6 +23,10 @@ const UsuariosSchema = mongoose.Schema({
         required: true,
         trim: true
     },
+    rol:{
+        type: String,
+        default: "employee"
+    },
     creado: {
         type: Date,
         default: Date.now()
