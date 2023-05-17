@@ -6,6 +6,7 @@ import { Formik, Form, useField } from "formik";
 import * as Yup from "yup";
 import { useMutation, gql } from "@apollo/client";
 import { useRouter } from "next/router";
+import Swal from 'sweetalert2';
 // import { route } from 'next/dist/next-server/server/router';
 
 const NUEVA_CUENTA = gql`
@@ -71,90 +72,11 @@ const MySelect = ({ label, ...props }) => {
 };
 
 const nuevaCuenta = () => {
-  //State para guardar mensaje
-  const [mensaje, guardarMensaje] = useState(null);
-  const [error, setError] = useState(0);
-
   //Mutation para crear nueva usuario
   const [nuevoUsuario] = useMutation(NUEVA_CUENTA);
 
   //Declarando la constante router
   const router = useRouter();
-
-  // Validación del formulario
-  // const formik = useFormik({
-  //   initialValues: {
-  //     nombre: '',
-  //     apellido: '',
-  //     email: '',
-  //     password: '',
-  //     rol: '',
-  //   },
-  //   validationSchema: Yup.object({
-  //     nombre: Yup.string()
-  //                 .required('El Nombre es obligatorio'),
-  //     apellido: Yup.string()
-  //                 .required('El Apellido es obligatorio'),
-  //     email: Yup.string()
-  //                 .email('El email no es válido')
-  //                 .required('El Email es obligatorio'),
-  //     password: Yup.string()
-  //                 .required('El Password es obligatorio')
-  //                 .min(6, 'El Password debe al menos tener 6 caracteres'),
-  //     rol: Yup.string()
-  //                 .required('El Rol es obligatorio')
-  //                 .min(6, 'El Password debe al menos tener 6 caracteres'),
-  //   }),
-  //   onSubmit: async (valores) => {
-  //     // console.log(valores);
-  //     const { nombre, apellido, email, password } = valores;
-
-  //     try {
-  //       const { data } = await nuevoUsuario({
-  //         variables: {
-  //           input: {
-  //             nombre,
-  //             apellido,
-  //             email,
-  //             password,
-  //             rol,
-  //           },
-  //         },
-  //       });
-
-  //       console.log(data);
-  //       console.log(data.nuevoUsuario.nombre);
-  //       guardarMensaje(
-  //         `Se ha creado un nuevo usuario con el nombre "${data.nuevoUsuario.nombre}"`
-  //       );
-  //       setTimeout(() => {
-  //         router.push('/login');
-  //       }, 5000);
-  //     } catch (error) {
-  //       guardarMensaje(error.message);
-  //       setError(1);
-  //       setTimeout(() => {
-  //         guardarMensaje(null);
-  //       }, 5000);
-  //     }
-  //   },
-  // });
-
-  const monstrarMensaje = () => {
-    //Creando mensaje de error en rojo en caso de que el usuario esté registrado
-    if (error == 1) {
-      return (
-        <div className="bg-white py-2 px-3 w-full my-3 max-w-sm text-center text-red-600 mx-auto">
-          <p> {mensaje} </p>
-        </div>
-      );
-    }
-    return (
-      <div className="bg-white py-2 px-3 w-full my-3 max-w-sm text-center mx-auto">
-        <p> {mensaje} </p>
-      </div>
-    );
-  };
 
   return (
     <Layout>
@@ -177,7 +99,7 @@ const nuevaCuenta = () => {
             .min(6, "El Password debe al menos tener 6 caracteres"),
           rol: Yup.string().required("El Rol es obligatorio"),
         })}
-        /*  onSubmit={async (values) => {
+         onSubmit={async (values) => {
           const { nombre, apellido, email, password, rol} = values;
           try {
             const { data } = await nuevoUsuario({
@@ -191,21 +113,18 @@ const nuevaCuenta = () => {
                 }
               }
             })
+            console.log(data);
+
+            Swal.fire({
+              icon: 'success',
+              showConfirmButton: false,
+              title: `${data.nuevoUsuario.nombre} ${data.nuevoUsuario.apellido}`,
+              timer: 2500,
+            });
+            router.push('/');
           } catch (error) {
             console.log(error);
           }
-        }} */
-        onSubmit={(values, { setSubmitting }) => {
-          const { nombre, apellido, email, password, rol } = values;
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
-          // try {
-          //   console.log(values);
-          // } catch (error) {
-          //   console.log(error);
-          // }
         }}
       >
         <div className="flex justify-center">
