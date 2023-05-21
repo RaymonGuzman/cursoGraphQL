@@ -72,14 +72,28 @@ const MySelect = ({ label, ...props }) => {
 };
 
 const nuevaCuenta = () => {
+  const [mensaje, setMensaje] = useState(null);
   //Mutation para crear nueva usuario
   const [nuevoUsuario] = useMutation(NUEVA_CUENTA);
 
   //Declarando la constante router
   const router = useRouter();
 
+  const monstrarMensaje = () => {
+    //Creando mensaje de error en rojo en caso de que el usuario esté registrado
+    return (
+      <div className="bg-white py-2 px-3 w-full my-3 max-w-sm text-center text-red-600 mx-auto">
+        <p> {mensaje} </p>
+      </div>
+    );
+  };
+
   return (
     <Layout>
+      <h1 className="text-2xl text-white text-center font-light">
+        Nuevos Usuarios
+      </h1>
+      {mensaje && monstrarMensaje()}
       <Formik
         initialValues={{
           nombre: "",
@@ -99,14 +113,14 @@ const nuevaCuenta = () => {
             .min(6, "El Password debe al menos tener 6 caracteres"),
           rol: Yup.string().required("El Rol es obligatorio"),
         })}
-         onSubmit={async (values) => {
-          const { nombre, apellido, email, password, rol} = values;
+        onSubmit={async (values) => {
+          const { nombre, apellido, email, password, rol } = values;
           try {
             const { data } = await nuevoUsuario({
               variables: {
                 input: {
                   nombre,
-                  apellido, 
+                  apellido,
                   email,
                   password,
                   rol,
@@ -124,9 +138,15 @@ const nuevaCuenta = () => {
             router.push('/');
           } catch (error) {
             console.log(error);
+            setMensaje(error.message);
+            setTimeout(() => {
+              setMensaje(null);
+            }, 3000);
           }
         }}
       >
+
+
         <div className="flex justify-center">
           <div className="w-full max-w-lg">
             <Form className="bg-white shadow-md px-8 pt-6 pb-8 mb-4">
