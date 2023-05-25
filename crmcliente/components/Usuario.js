@@ -3,9 +3,9 @@ import { useMutation, useQuery, gql } from '@apollo/client';
 import { useRouter } from 'next/router';
 import Swal from 'sweetalert2';
 
-const ELIMINAR_CLIENTE = gql`
-  mutation eliminarCliente($id: ID!) {
-    eliminarCliente(id: $id)
+const ELIMINAR_USUARIO = gql`
+  mutation eliminarUsuario($id:ID!){
+    eliminarUsuario(id:$id)
   }
 `;
 
@@ -22,6 +22,18 @@ const OBTENER_USUARIO = gql`
   }
 `;
 
+const OBTENER_USUARIOS = gql`
+  {
+    obtenerUsuarios {
+      id
+      nombre
+      apellido
+      email
+      rol
+    }
+  }
+`;
+
 const Usuario = ({ usuario }) => {
   const { id, nombre, apellido, email, rol } = usuario;
 
@@ -31,35 +43,34 @@ const Usuario = ({ usuario }) => {
     id:usuario.id
   }});
   console.log(data);
-  // const [eliminarCliente] = useMutation(ELIMINAR_CLIENTE, {
-  //   update(cache) {
-  //     const { obtenerClienteVendedor } = cache.readQuery({
-  //       query: CLIENTES_VENDEDOR,
-  //     });
+  const [eliminarUsuario] = useMutation(ELIMINAR_USUARIO, {
+    update(cache) {
+      const { obtenerUsuarios } = cache.readQuery({
+        query: OBTENER_USUARIOS,
+      });
 
-  //     cache.writeQuery({
-  //       query: CLIENTES_VENDEDOR,
-  //       data: {
-  //         obtenerClienteVendedor: obtenerClienteVendedor.filter(
-  //           (clienteActual) => clienteActual.id !== id
-  //         ),
-  //       },
-  //     });
-  //   },
-  // });
+      cache.writeQuery({
+        query: OBTENER_USUARIOS,
+        data: {
+          obtenerUsuarios: obtenerUsuarios.filter(
+            (usuarioActual) => usuarioActual.id !== id
+          ),
+        },
+      });
+    },
+  });
 
   const editarCliente = () => {
     // console.log('Editando id ', id);
     router.push({
-      pathname: '/actualizarcliente/[id]',
+      pathname: '/actualizarusuario/[id]',
       query: { id }
     });
   };
 
-  const removerCliente = ({ id }) => {
-    // console.log(id);
+  const removerUsuario = ({ id }) => {
     Swal.fire({
-      title: '¿Seguro que desea eliminar el cliente?',
+      title: '¿Seguro que desea eliminar el usuario?',
       text: 'Este cambio no se podrá revertir!',
       icon: 'warning',
       showCancelButton: true,
@@ -70,19 +81,20 @@ const Usuario = ({ usuario }) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const { data } = await eliminarCliente({
+          const { data } = await eliminarUsuario({
             variables: {
               id,
             },
           });
 
-          Swal.fire('Eliminado!', data.eliminarCliente, 'success');
+          Swal.fire('Eliminado!', data.eliminarUsuario, 'success');
         } catch (error) {
           console.log(error);
         }
       }
     });
   };
+
   return (
     <>
       <td className="border px-4 py-2 border-gray-300">
@@ -116,7 +128,7 @@ const Usuario = ({ usuario }) => {
       <td className="border px-5 py-2 border-gray-300">
         <button
           className="flex justifiy-center items-center m-3 bg-red-600 text-white font-bold px-4 py-1 rounded hover:bg-red-800"
-          onClick={() => removerCliente({ id })}
+          onClick={() => removerUsuario({ id })}
         >
           Eliminar
           <svg

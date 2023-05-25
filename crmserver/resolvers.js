@@ -22,8 +22,17 @@ const resolvers = {
       console.log(UsuarioId);
       return UsuarioId;
     },
-    obtenerUsuario: async (_, __, ctx) => {
+    obtenerUsuarioAutenticado: async (_, __, ctx) => {
       return ctx.usuario;
+    },
+
+    obtenerUsuario: async (_, { id }) => {
+      const usuarioID = await Usuario.findById(id);
+      if (!usuarioID) {
+        throw new Error('No existe el usuario');
+      }
+
+      return usuarioID;
     },
 
     obtenerUsuarios: async () => {
@@ -246,6 +255,27 @@ const resolvers = {
       return {
         token: crearToken(existeUsuario, process.env.PALABRA, '24h'),
       };
+    },
+
+    actualizarUsuario: async (_, { id, input }, ctx) => {
+      const usuario = await Usuario.findById(id);
+      if (!usuario) {
+        throw new Error('No existe usuario con este ID');
+      }
+      const usuarioActualizado = await Usuario.findByIdAndUpdate(id, input, {
+        new: true,
+      });
+      return usuarioActualizado;
+    },
+
+    eliminarUsuario: async (_, { id }) => {
+      const usuario = await Usuario.findById(id);
+      if (!usuario) {
+        throw new Error('No existe usuario con este ID');
+      }
+      const eliminarUsuario = await Usuario.findByIdAndDelete(id);
+
+      return 'Usuario eliminado satisfactoriamente!';
     },
 
     // Productos

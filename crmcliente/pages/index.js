@@ -35,7 +35,7 @@ export default function Home() {
       <h1 className="text-2xl text-gray-800"> Clientes </h1>
 
       <Link href="/nuevosclientes">
-        <a className="bg-gray-800 text-white px-3 py-2 mb-3 inline-block rounded font-bold text-sm shadow-md hover:bg-blue-500">
+        <a className="bg-gray-800 text-white px-3 py-2 mb-3 inline-block rounded font-bold text-sm shadow-md hover:bg-blue-500 w-full lg:w-auto text-center">
           Nuevos Clientes
         </a>
       </Link>
@@ -43,33 +43,35 @@ export default function Home() {
         (!data?.obtenerClienteVendedor) ?
           <h1>El usuario actual aún no tiene ningún cliente asignado</h1>
           :
-          <table className="table-auto shadow-md mt-10 w-full w-lg">
-            <thead className="bg-gray-800 text-white">
-              <tr>
-                <th className="w-1/3 py-2">Nombre</th>
-                <th className="w-2/3 py-2">Empresa</th>
-                <th className="w-1/3 py-2">Email</th>
-                <th>Editar</th>
-                <th>Eliminar</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white">
+          <div className="overflow-x-scroll">
+            <table className="table-auto shadow-md mt-10 w-full w-lg">
+              <thead className="bg-gray-800 text-white">
+                <tr>
+                  <th className="w-1/3 py-2">Nombre</th>
+                  <th className="w-2/3 py-2">Empresa</th>
+                  <th className="w-1/3 py-2">Email</th>
+                  <th>Editar</th>
+                  <th>Eliminar</th>
+                </tr>
+              </thead>
+              <tbody className="bg-white">
 
 
-              {data.obtenerClienteVendedor.map(
-                (cliente) => (
-                  <tr key={cliente.id}>
-                    <Cliente cliente={cliente} />
-                  </tr>
+                {data.obtenerClienteVendedor.map(
+                  (cliente) => (
+                    <tr key={cliente.id}>
+                      <Cliente cliente={cliente} />
+                    </tr>
+                  )
                 )
-              )
-              }
+                }
 
 
 
 
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </div>
       }
     </Layout>
   );
